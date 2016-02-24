@@ -432,7 +432,7 @@ void test_start(void)
 		//initialise_cpus();
 		btrace(my_cpu_num, __LINE__, "BeforeInit", 1, 0, 0);
 		/* Draw the screen and get system information */
-	  init();
+		init();
 
 		/* Set defaults and initialize variables */
 		set_defaults();
@@ -747,7 +747,7 @@ void test_start(void)
 			    /* Do the same test for each CPU */
 			    if (++cpu_sel >= act_cpus) 
 			    	{
-	            cpu_sel = 0;
+				cpu_sel = 0;
 			        next_test();
 			    	} else {
 			        continue;

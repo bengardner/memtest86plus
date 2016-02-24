@@ -7,6 +7,8 @@
  *
  * Released under version 2 of the Gnu Public License.
  * By Chris Brady
+ *
+ * Edited by David McInnis October 4, 2014
  */
  
 
@@ -913,7 +915,6 @@ void cpu_type(void)
 			default:
 				cprint(0, COL_MID, "Unknown Intel");
  				break;
-			break;
 		    }
 
 		}
