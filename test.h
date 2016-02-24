@@ -113,6 +113,7 @@ int strstr(char *str1, char *str2);
 int strlen(char *string);
 int query_linuxbios(void);
 int query_pcbios(void);
+int query_multiboot(void);
 int insertaddress(ulong);
 void printpatn(void);
 void printpatn(void);
@@ -307,6 +308,7 @@ struct vars {
 #define FIRMWARE_UNKNOWN   0
 #define FIRMWARE_PCBIOS    1
 #define FIRMWARE_LINUXBIOS 2
+#define FIRMWARE_MULTIBOOT 3
 
 extern struct vars * const v;
 extern unsigned char _start[], _end[], startup_32[];

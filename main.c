@@ -16,6 +16,7 @@
 #include "cpuid.h"
 #include "smp.h"
 #include "config.h"
+#include "multiboot.h"
 #undef TEST_TIMES
 #define DEFTESTS 9
 #define FIRST_DIVISER 3
@@ -40,6 +41,8 @@ extern void	rand_seed(unsigned int seed1, unsigned int seed2, int cpu);
 extern struct	barrier_s *barr;
 extern int 	num_cpus;
 extern int 	act_cpus;
+
+extern struct multiboot_info *mbiptr;
 
 static int	find_ticks_for_test(int test);
 void		find_ticks_for_pass(void);
@@ -286,11 +289,15 @@ static void parse_command_line(void)
 		cpu_mask[i] = 1;
 	}
 
-	if (*OLD_CL_MAGIC_ADDR != OLD_CL_MAGIC)
-		return;
+	if (mbiptr && (mbiptr->flags & MULTIBOOT_INFO_CMDLINE)) {
+		cp = (void *) mbiptr->cmdline;
+	} else {
+		if (*OLD_CL_MAGIC_ADDR != OLD_CL_MAGIC)
+			return;
 
-	unsigned short offset = *OLD_CL_OFFSET_ADDR;
-	cp = MK_PTR(INITSEG, offset);
+		unsigned short offset = *OLD_CL_OFFSET_ADDR;
+		cp = MK_PTR(INITSEG, offset);
+	}
 
 	/* skip leading spaces */
 	while (*cp == ' ')

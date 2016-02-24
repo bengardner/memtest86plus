@@ -14,11 +14,15 @@ CC=gcc
 
 CFLAGS= -Wall -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin \
 	-ffreestanding -fPIC $(SMP_FL) -fno-stack-protector 
-	
+
+# This reverts a change introduced with recent binutils (post
+# http://sourceware.org/bugzilla/show_bug.cgi?id=10569).  Needed to
+# ensure Multiboot header is within the limit offset.
+LD += -z max-page-size=0x1000
+
 OBJS= head.o reloc.o main.o test.o init.o lib.o patn.o screen_buffer.o \
       config.o cpuid.o linuxbios.o pci.o memsize.o spd.o error.o dmi.o controller.o \
-      smp.o vmem.o random.o
-      
+      smp.o vmem.o random.o multiboot.o
 
 all: clean memtest.bin memtest 
 
