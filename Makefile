@@ -13,7 +13,7 @@ AS=as -32
 CC=gcc
 
 CFLAGS= -Wall -march=i486 -m32 -O0 -fomit-frame-pointer -fno-builtin \
-	-ffreestanding -fPIC $(SMP_FL) -fno-stack-protector 
+	-ffreestanding -fPIC $(SMP_FL) -fno-stack-protector -fgnu89-inline
 
 # This reverts a change introduced with recent binutils (post
 # http://sourceware.org/bugzilla/show_bug.cgi?id=10569).  Needed to
