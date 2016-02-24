@@ -29,7 +29,7 @@ void get_cpuid()
 	if(cpu_id.max_cpuid >= 6)	{
 		cpuid(0x00000006, &cpu_id.dts_pmp, &dummy[0], &dummy[1], &dummy[2]);
 	}
-	
+
 	/* Get the max extended cpuid */
 	cpuid(0x80000000, &cpu_id.max_xcpuid, &dummy[0], &dummy[1], &dummy[2]);
 

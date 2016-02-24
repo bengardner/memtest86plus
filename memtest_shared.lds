@@ -1,7 +1,7 @@
 OUTPUT_FORMAT("elf32-i386");
 OUTPUT_ARCH(i386);
 
-ENTRY(startup_32); 
+ENTRY(startup_32);
 SECTIONS {
 	. = 0;
 	.text : {
@@ -29,9 +29,9 @@ SECTIONS {
 
 	. = ALIGN(4);
 	.data : {
-		 _data = .; 
-		*(.data) 
-		*(.data.*) 
+		 _data = .;
+		*(.data)
+		*(.data.*)
 	}
 	.got : {
 		*(.got.plt)
@@ -39,15 +39,15 @@ SECTIONS {
 		_edata = . ;
 	}
 	. = ALIGN(4);
-	.bss : { 
+	.bss : {
 		_bss = .;
 		*(.dynbss)
-		*(.bss) 
-		*(.bss.*) 
-		*(COMMON) 
+		*(.bss)
+		*(.bss.*)
+		*(COMMON)
 		/* _end must be at least 256 byte aligned */
-		. = ALIGN(256); 
+		. = ALIGN(256);
 		_end = .;
 	}
-	/DISCARD/ : { *(*) }	
+	/DISCARD/ : { *(*) }
 }

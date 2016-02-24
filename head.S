@@ -265,7 +265,7 @@ zerobss_done:
 	leal	_dl_start@GOTOFF(%ebx), %eax
 	call	*%eax
 
-	/* Never forget to initialize the FPU ... Never ! */ 
+	/* Never forget to initialize the FPU ... Never ! */
 	finit
 
 	call	test_start
@@ -389,8 +389,8 @@ int_hand:
 	/* original boot_stack pointer */
 	leal	48(%esp), %eax
 	pushl	%eax
-	pushl	%ds  
-	pushl	%ss 
+	pushl	%ds
+	pushl	%ss
 	pushl	%esp /* pointer to trap regs struct on the boot_stack */
 	call	inter
 	addl	$8, %esp
@@ -468,7 +468,7 @@ maxdepth
 # Page Directory Tables:
 # There are 4 tables, the first two map the first 2 GB of memory. The last two are used with # PAE to map
 # the rest of memory in 2 GB segments. The last two tables are changed in vmem.c to map each segment.
-# We use 2 MB pages so only the Page Directory Table is used (no page tables). 
+# We use 2 MB pages so only the Page Directory Table is used (no page tables).
 .balign 4096
 .globl pd0
 pd0:
@@ -853,7 +853,7 @@ _ap_trampoline_protmode:
 	/* if we ever return, we'll just loop forever */
 	cli
 2:	hlt
-	jmp 2b	
+	jmp 2b
 .data
 zerobss:	.long	1
 .previous

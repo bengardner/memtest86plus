@@ -1,6 +1,6 @@
 /*
  * cpuid.h --
- *      contains the data structures required for CPUID 
+ *      contains the data structures required for CPUID
  *      implementation.
  */
 
@@ -50,11 +50,11 @@ typedef union {
    struct {
       uint32_t    fill1:24;      /* Bit 0 */
       uint32_t    l1_i_sz:8;
-      uint32_t    fill2:24; 
+      uint32_t    fill2:24;
       uint32_t    l1_d_sz:8;
-      uint32_t    fill3:16; 
+      uint32_t    fill3:16;
       uint32_t    l2_sz:16;
-      uint32_t    fill4:18; 
+      uint32_t    fill4:18;
       uint32_t    l3_sz:14;
       uint32_t    fill5[8];
    } amd;
@@ -86,7 +86,7 @@ typedef union {
       uint32_t    extendedModel:4;
       uint32_t    extendedFamily:8;
       uint32_t    reserved3128:4;  /* Bit 31 */
-   } bits;      
+   } bits;
 } cpuid_version_t;
 
 /* Typedef for storing CPUID Processor Information */
@@ -97,14 +97,14 @@ typedef union {
       uint32_t    cflushLineSize:8;
       uint32_t    logicalProcessorCount:8;
       uint32_t    apicID:8;        /* Bit 31 */
-   } bits;      
+   } bits;
 } cpuid_proc_info_t;
 
 /* Typedef for storing CPUID Feature flags */
 typedef union {
    uint32_t flat;
    struct {
-      uint32_t    :1;           
+      uint32_t    :1;
    } bits;
 } cpuid_custom_features;
 
@@ -150,9 +150,9 @@ typedef union {
       uint32_t    mon:1;
       uint32_t    dscpl:1;
       uint32_t    vmx:1;
-     	uint32_t    smx:1;      	
-     	uint32_t    eist:1;  
-     	uint32_t    tm2:1;       		     		
+     	uint32_t    smx:1;
+     	uint32_t    eist:1;
+     	uint32_t    tm2:1;
       uint32_t    bits_9_31:23;
       uint32_t    bits0_28:29;     /* EDX extended feature flags, bit 0 */
       uint32_t    lm:1;		   /* Long Mode */

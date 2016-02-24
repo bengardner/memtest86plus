@@ -31,14 +31,14 @@
 /*	to enable. */
 #define SERIAL_CONSOLE_DEFAULT 0
 
-/* SERIAL_TTY - The default serial port to use. 0=ttyS0, 1=ttyS1 */ 
+/* SERIAL_TTY - The default serial port to use. 0=ttyS0, 1=ttyS1 */
 #define SERIAL_TTY 0
 
 /* SERIAL_BAUD_RATE - Baud rate for the serial console */
 #define SERIAL_BAUD_RATE 9600
 
 /* SCRN_DEBUG - extra check for SCREEN_BUFFER
- */ 
+ */
 /* #define SCRN_DEBUG */
 
 /* APM - Turns off APM at boot time to avoid blanking the screen */

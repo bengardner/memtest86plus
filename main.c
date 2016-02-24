@@ -8,7 +8,7 @@
  * Released under version 2 of the Gnu Public License.
  * By Chris Brady
  */
- 
+
 #include "stdint.h"
 #include "stddef.h"
 #include "test.h"
@@ -57,8 +57,8 @@ struct tseq tseq[] = {
 	{1, 32,  3,   6, 0, "[Moving inversions, 1s & 0s Parallel]  "},
 	{1, 32,  5,   3, 0, "[Moving inversions, 8 bit pattern]     "},
 	{1, 32,  6,  30, 0, "[Moving inversions, random pattern]    "},
-	{1, 32,  7,  81, 0, "[Block move]                           "}, 
-	{1,  1,  8,   3, 0, "[Moving inversions, 32 bit pattern]    "}, 
+	{1, 32,  7,  81, 0, "[Block move]                           "},
+	{1,  1,  8,   3, 0, "[Moving inversions, 32 bit pattern]    "},
 	{1, 32,  9,  48, 0, "[Random number sequence]               "},
   {1, 32, 10,   6, 0, "[Modulo 20, Random pattern]            "},
 	{1, 1,  11, 240, 0, "[Bit fade test, 2 patterns]            "},
@@ -217,7 +217,7 @@ static void run_at(unsigned long addr, int cpu)
 
 	/* We use a lock to insure that only one CPU at a time jumps to
 	 * the new code. Some of the startup stuff is not thread safe! */
-  spin_lock(&barr->mutex);   
+  spin_lock(&barr->mutex);
 
 	/* Jump to the start address */
 	goto *ja;
@@ -225,21 +225,21 @@ static void run_at(unsigned long addr, int cpu)
 
 /* Switch from the boot stack to the main stack. First the main stack
  * is allocated, then the contents of the boot stack are copied, then
- * ESP is adjusted to point to the new stack.  
+ * ESP is adjusted to point to the new stack.
  */
 static void
 switch_to_main_stack(unsigned cpu_num)
 {
 	extern uintptr_t boot_stack;
-	extern uintptr_t boot_stack_top; 
+	extern uintptr_t boot_stack_top;
 	uintptr_t *src, *dst;
 	int offs;
 	uint8_t * stackAddr, *stackTop;
-   
+
 	stackAddr = (uint8_t *) &stacks[cpu_num][0];
 
 	stackTop  = stackAddr + STACKSIZE;
-   
+
 	src = (uintptr_t*)&boot_stack_top;
 	dst = (uintptr_t*)stackTop;
 	do {
@@ -249,9 +249,9 @@ switch_to_main_stack(unsigned cpu_num)
 
 	offs = (uint8_t *)&boot_stack_top - stackTop;
 	__asm__ __volatile__ (
-	"subl %%eax, %%esp" 
+	"subl %%eax, %%esp"
 		: /*no output*/
-		: "a" (offs) : "memory" 
+		: "a" (offs) : "memory"
 	);
 }
 
@@ -272,7 +272,7 @@ void reloc(void)
 /* command line passing using the 'old' boot protocol */
 #define MK_PTR(seg,off) ((void*)(((unsigned long)(seg) << 4) + (off)))
 #define OLD_CL_MAGIC_ADDR ((unsigned short*) MK_PTR(INITSEG,0x20))
-#define OLD_CL_MAGIC 0xA33F 
+#define OLD_CL_MAGIC 0xA33F
 #define OLD_CL_OFFSET_ADDR ((unsigned short*) MK_PTR(INITSEG,0x22))
 
 static void parse_command_line(void)
@@ -354,7 +354,7 @@ static void parse_command_line(void)
 		    cp += 8;
 		    if (cp[0] == '0' && toupper(cp[1]) == 'X') cp += 2;
 		    while (*cp && *cp != ' ' && isxdigit(*cp)) {
-			i = isdigit(*cp) ? *cp-'0' : toupper(*cp)-'A'+10; 
+			i = isdigit(*cp) ? *cp-'0' : toupper(*cp)-'A'+10;
 			bin_mask = bin_mask * 16 + i;
 			cp++;
 		    }
@@ -362,7 +362,7 @@ static void parse_command_line(void)
 		    bin_mask |= 1;
 		    for (i=0; i<32; i++) {
 			if (((bin_mask>>i) & 1) == 0) {
-			     cpu_mask[i] = 0; 
+			     cpu_mask[i] = 0;
 			}
 		    }
 		}
@@ -436,7 +436,7 @@ void test_start(void)
 
 		/* Set defaults and initialize variables */
 		set_defaults();
-	
+
 		/* Setup base address for testing, 1 MB */
 		win0_start = 0x100;
 
@@ -447,7 +447,7 @@ void test_start(void)
 			high_test_adr = 0x2000000;
 	        } else {
 			high_test_adr = 0x300000;
-		} 
+		}
 		win1_end = (high_test_adr >> 12);
 
 		/* Adjust the map to not test the page at 939k,
@@ -480,7 +480,7 @@ void test_start(void)
 	/* A barrier to insure that all of the CPUs are done with startup */
 	barrier();
 	btrace(my_cpu_num, __LINE__, "1st Barr  ", 1, my_cpu_num, my_cpu_ord);
-	
+
 
 	/* Setup Memory Management and measure memory speed, we do it here
 	 * because we need all of the available CPUs */
@@ -547,9 +547,9 @@ void test_start(void)
 		continue;
 	    }
             /* Skip single CPU tests if we are using only one CPU */
-            if (tseq[test].cpu_sel == -1 && 
+            if (tseq[test].cpu_sel == -1 &&
                     (num_cpus == 1 || cpu_mode != CPM_ALL)) {
-                test++; 
+                test++;
                 continue;
             }
 
@@ -618,7 +618,7 @@ void test_start(void)
 			if (my_cpu_ord >= tseq[test].cpu_sel) {
 				run = 0;
 			}
-			/* Set the master CPU to the highest CPU number 
+			/* Set the master CPU to the highest CPU number
 			 * that has been selected */
 			if (act_cpus < tseq[test].cpu_sel) {
 				mstr_cpu = act_cpus-1;
@@ -742,10 +742,10 @@ void test_start(void)
 		}
 		break;
 	    case CPM_ALL:
-	      if (tseq[test].cpu_sel == -1) 
+	      if (tseq[test].cpu_sel == -1)
 	      	{
 			    /* Do the same test for each CPU */
-			    if (++cpu_sel >= act_cpus) 
+			    if (++cpu_sel >= act_cpus)
 			    	{
 				cpu_sel = 0;
 			        next_test();
@@ -759,23 +759,23 @@ void test_start(void)
 	    btrace(my_cpu_num, __LINE__, "Next_CPU  ",1,cpu_sel,test);
 
 	    /* If this was the last test then we finished a pass */
-	  if (pass_flag) 
+	  if (pass_flag)
 	  	{
 			pass_flag = 0;
-			
+
 			v->pass++;
-			
+
 			dprint(LINE_INFO, 49, v->pass, 5, 0);
 			find_ticks_for_pass();
 			ltest = -1;
-			
-			if (v->ecount == 0) 
+
+			if (v->ecount == 0)
 				{
 			    /* If onepass is enabled and we did not get any errors
 			     * reboot to exit the test */
 			    if (onepass) {	reboot();   }
 			    if (!btflag) cprint(LINE_MSG, COL_MSG-8, "** Pass complete, no errors, press Esc to exit **");
-					if(BEEP_END_NO_ERROR) 
+					if(BEEP_END_NO_ERROR)
 						{
 							beep(1000);
 							beep(2000);
@@ -840,13 +840,13 @@ int do_test(int my_ord)
 	  if ((ulong)&_start > LOW_TEST_ADR) {
 		/* Relocated so we need to test all selected lower memory */
 		v->map[0].start = mapping(v->plim_lower);
-		
+
 		/* Good 'ol Legacy USB_WAR */
-		if (v->map[0].start < (ulong*)0x500) 
+		if (v->map[0].start < (ulong*)0x500)
 		{
     	v->map[0].start = (ulong*)0x500;
 		}
-		
+
 		cprint(LINE_PAT, COL_MID+25, " R");
 	    } else {
 		cprint(LINE_PAT, COL_MID+25, "  ");
@@ -862,7 +862,7 @@ int do_test(int my_ord)
 	    cprint(LINE_RANGE, COL_MID+30, " of ");
 	    aprint(LINE_RANGE, COL_MID+34, v->selected_pages);
 	}
-	
+
 	switch(tseq[test].pat) {
 
 	/* Do the testing according to the selected pattern */
@@ -888,13 +888,13 @@ int do_test(int my_ord)
 		s_barrier();
 		movinv1(c_iter,p1,p2,my_ord);
 		BAILOUT;
-	
+
 		/* Switch patterns */
 		s_barrier();
 		movinv1(c_iter,p2,p1,my_ord);
 		BAILOUT;
 		break;
-		
+
 	case 5: /* Moving inversions, 8 bit walking ones and zeros (test #5) */
 		p0 = 0x80;
 		for (i=0; i<8; i++, p0=p0>>1) {
@@ -903,14 +903,14 @@ int do_test(int my_ord)
 			s_barrier();
 			movinv1(c_iter,p1,p2, my_ord);
 			BAILOUT;
-	
+
 			/* Switch patterns */
 			s_barrier();
 			movinv1(c_iter,p2,p1, my_ord);
 			BAILOUT
 		}
 		break;
-		
+
 	case 6: /* Random Data (test #6) */
 		/* Seed the random number generator */
 		if (my_ord == mstr_cpu) {
@@ -1050,7 +1050,7 @@ int do_test(int my_ord)
 }
 
 /* Compute number of SPINSZ chunks being tested */
-int find_chunks(int tst) 
+int find_chunks(int tst)
 {
 	int i, j, sg, wmax, ch;
 	struct pmap twin={0,0};
@@ -1119,7 +1119,7 @@ void find_ticks_for_pass(void)
 	i = 0;
 	while (tseq[i].cpu_sel != 0) {
 		/* Skip tests 2 and 4 if we are using 1 cpu */
-		if (act_cpus == 1 && (i == 2 || i == 4)) { 
+		if (act_cpus == 1 && (i == 2 || i == 4)) {
 		    i++;
 		    continue;
 		}
@@ -1260,11 +1260,11 @@ static int compute_segments(struct pmap win, int me)
 
 		cprint(LINE_SCROLL+(2*i+1), 44, "i=");
 		hprint(LINE_SCROLL+(2*i+1), 46, i);
-		
-		cprint(LINE_SCROLL+(2*i+2), 0, 
+
+		cprint(LINE_SCROLL+(2*i+2), 0,
 			"                                        "
 			"                                        ");
-		cprint(LINE_SCROLL+(2*i+3), 0, 
+		cprint(LINE_SCROLL+(2*i+3), 0,
 			"                                        "
 			"                                        ");
 #endif
@@ -1279,7 +1279,7 @@ static int compute_segments(struct pmap win, int me)
 		hprint(LINE_SCROLL+(sg+1), 32, end);
 		hprint(LINE_SCROLL+(sg+1), 42, mapping(start));
 		hprint(LINE_SCROLL+(sg+1), 52, emapping(end));
-		cprint(LINE_SCROLL+(sg+2), 0, 
+		cprint(LINE_SCROLL+(sg+2), 0,
 			"                                        "
 			"                                        ");
 #endif

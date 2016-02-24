@@ -62,7 +62,7 @@ partition via Lilo or Grub image from a hard disk partition.
   To boot from a disk partition via Grub
    1) Copy the image file to a permanent location (ie. /boot/memtest.bin).
    2) Add an entry in the Grub config file (/boot/grub/menu.lst) to boot
-      memtest86.  Only the title and kernel fields need to be specified. 
+      memtest86.  Only the title and kernel fields need to be specified.
       The following is a sample Grub entry for booting memtest86:
 
 	title Memtest86
@@ -102,7 +102,7 @@ screen sometimes is garbled when the online commands are used.
 Memtest86 has a limited number of online commands.  Online commands
 provide control over caching, test selection, address range and error
 scrolling.  A help bar is displayed at the bottom of the screen listing
-the available on-line commands. 
+the available on-line commands.
 
   Command  Description
 
@@ -114,7 +114,7 @@ the available on-line commands.
 	       2) Address Range
 	       3) Error Report Mode
 	       4) CPU Selection Mode
-	       5) Refresh Screen 
+	       5) Refresh Screen
 
   SP    Set scroll lock (Stops scrolling of error messages)
 	Note: Testing is stalled when the scroll lock is
@@ -172,9 +172,9 @@ different address or failing bit pattern.  All displayed values are in
 hexadecimal.
 
   Tst:			Test number
-  Failing Address:	Failing memory address 
-  Good:			Expected data pattern 
-  Bad:			Failing data pattern 
+  Failing Address:	Failing memory address
+  Good:			Expected data pattern
+  Bad:			Failing data pattern
   Err-Bits:		Exclusive or of good and bad data (this shows the
 			position of the failing bit(s))
   Count:		Number of consecutive errors with the same address
@@ -203,7 +203,7 @@ bad memory. The test implicitly tests the CPU, L1 and L2 caches as well as
 the motherboard.  It is impossible for the test to determine what causes
 the failure to occur.  Most failures will be due to a problem with memory.
 When it is not, the only option is to replace parts until the failure is
-corrected.  
+corrected.
 
 Once a memory error has been detected, determining the failing
 module is not a clear cut procedure.  With the large number of motherboard
@@ -232,7 +232,7 @@ should be able to determine which module is failing.
 
 3) Replacing modules
 If you are unable to use either of the previous techniques then you are
-left to selective replacement of modules to find the failure.  
+left to selective replacement of modules to find the failure.
 
 4) Avoiding allocation
 The printing mode for BadRAM patterns is intended to construct boot time
@@ -271,10 +271,10 @@ Memtest86 to crash in the same way.
 8) Execution Time
 ==================
 The time required for a complete pass of Memtest86 will vary greatly
-depending on CPU speed, memory speed and memory size. Memtest86 executes 
-indefinitely.  The pass counter increments each time that all of the 
-selected tests have been run.  Generally a single pass is sufficient to 
-catch all but the most obscure errors. However, for complete confidence 
+depending on CPU speed, memory speed and memory size. Memtest86 executes
+indefinitely.  The pass counter increments each time that all of the
+selected tests have been run.  Generally a single pass is sufficient to
+catch all but the most obscure errors. However, for complete confidence
 when intermittent errors are suspected testing for a longer period is advised.
 
 9) Memory Testing Philosophy
@@ -302,7 +302,7 @@ It should be obvious that this strategy requires an exact knowledge
 of how the memory cells are laid out on the chip.  In addition there is a
 never ending number of possible chip layouts for different chip types
 and manufacturers making this strategy impractical.  However, there
-are testing algorithms that can approximate this ideal strategy. 
+are testing algorithms that can approximate this ideal strategy.
 
 
 11) Memtest86 Test Algorithms
@@ -376,7 +376,7 @@ Test 1 [Address test, own address Sequential]
 
 Test 2 [Address test, own address Parallel]
   Same as test 1 but the testing is done in parallel using all CPUs using
-  overlapping addresses. 
+  overlapping addresses.
 
 Test 3 [Moving inversions, ones&zeros Sequential]
   This test uses the moving inversions algorithm with patterns of all
@@ -387,7 +387,7 @@ Test 3 [Moving inversions, ones&zeros Sequential]
 
 Test 4 [Moving inversions, ones&zeros Parallel]
   Same as test 3 but the testing is done in parallel using all CPUs.
- 
+
 Test 5 [Moving inversions, 8 bit pat]
   This is the same as test 4 but uses a 8 bit wide pattern of
   "walking" ones and zeros.  This test will better detect subtle errors
@@ -396,10 +396,10 @@ Test 5 [Moving inversions, 8 bit pat]
 Test 6 [Moving inversions, random pattern]
   Test 6 uses the same algorithm as test 4 but the data pattern is a
   random number and it's complement. This test is particularly effective
-  in finding difficult to detect data sensitive errors. 
-  The random number sequence is different with each pass 
-  so multiple passes increase effectiveness. 
-  
+  in finding difficult to detect data sensitive errors.
+  The random number sequence is different with each pass
+  so multiple passes increase effectiveness.
+
 Test 7 [Block move, 64 moves]
   This test stresses memory by using block move (movsl) instructions
   and is based on Robert Redelmeier's burnBX test.  Memory is initialized
@@ -419,7 +419,7 @@ Test 8 [Moving inversions, 32 bit pat]
   is shifted left for each pass. To use all possible data patterns 32 passes
   are required.  This test is quite effective at detecting data sensitive
   errors but the execution time is long.
- 
+
 Test 9 [Random number sequence]
  This test writes a series of random numbers into memory. By resetting the
  seed for the random number the same sequence of number can be created for
@@ -535,21 +535,21 @@ Enhancements in v4.0 (28/Mar/2011)
   CPU detection has been completely re-written to use the brand ID string
   rather than the cumbersome, difficult to maintain and often out of date
   CPUID family information. All new processors will now be correctly
-  identified without requiring code support. 
+  identified without requiring code support.
 
   All code related to controller identification, PCI and DMI has been removed.
   This may be a controversial decision and was not made lightly. The following
   are justifications for the decision:
 
     1. Controller identification has nothing to do with actual testing of
-       memory, the core purpose of Memtest86. 
+       memory, the core purpose of Memtest86.
     2. This code needed to be updated with every new chipset. With the ever
        growing number of chipsets it is not possible to keep up with the
        changes. The result is that new chipsets were more often than not
        reported in-correctly. In the authors opinion incorrect information is
        worse than no information.
     3. Probing for chipset information carries the risk of making the program
-       crash. 
+       crash.
     4. The amount of code involved with controller identification was quite
        large, making support more difficult.
 
@@ -557,7 +557,7 @@ Enhancements in v4.0 (28/Mar/2011)
   correctable ECC errors. The code to support ECC was hopelessly intertwined
   the controller identification code. A fresh, streamlined implementation of
   ECC reporting is planned for a future release.
-    
+
   A surprising number of conditions existed that potentially cause problems
   when testing more than 4 GB of memory. Most if not all of these conditions
   have been identified and corrected.
@@ -574,7 +574,7 @@ Enhancements in v4.0 (28/Mar/2011)
   multi channel memory controllers.
 
   This is a major re-write of the Memtest86 with a large number of minor
-  bug-fixes and substantial cleanup and re-organization of the code. 
+  bug-fixes and substantial cleanup and re-organization of the code.
 
 
 Enhancements in v3.5 (3/Jan/2008)
@@ -637,14 +637,14 @@ Enhancements in v3.2 (11/Nov/2004)
   Updated CPU detection for newer AMD, Intel and Cyrix CPUs.
 
   Reworked test sequence:
-	- Dropped ineffective non cached tests (Numbers 7-11) 
-	- Changed cache mode to "cached" for test 2 
+	- Dropped ineffective non cached tests (Numbers 7-11)
+	- Changed cache mode to "cached" for test 2
 	- Fixed bug that did not allow some tests to be skipped
 	- Added bailout for Bit fade test
 
-  Error reports are highlighted in red to provide a more vivid error 
+  Error reports are highlighted in red to provide a more vivid error
   indication.
-	    
+
   Added support for a large number of additional chipsets. (from Memtest86+
   v1.30)
 
@@ -692,7 +692,7 @@ Enhancements in v3.0 (22/May/2002) Provided by Eric Biederman
 Enhancements in v2.9 (29/Feb/2002)
 
    The memory sizing code has been completely rewritten.  By default
-   Memtest86 gets a memory map from the BIOS that is now used to find 
+   Memtest86 gets a memory map from the BIOS that is now used to find
    available memory. A new online configuration option provides three
    choices for how memory will be sized, including the old "probe" method.
    The default mode generally will not test all of memory, but should be more
@@ -723,7 +723,7 @@ Enhancements in v2.8 (18/Oct/2001)
 
    Added CPU detection for Pentium 4.
 
-   
+
 Enhancements in v2.7 (12/Jul/2001)
    Expanded workaround for errors caused by BIOS USB keyboard support to
    include test #5.
@@ -788,7 +788,7 @@ Enhancements in v2.4
 Enhancements in v2.3
    A progress meter was added to replace the spinner and dots.
 
-   Measurement and reporting of memory and cache performance  
+   Measurement and reporting of memory and cache performance
    was added.
 
    Support for creating BadRAM patterns was added.
@@ -848,7 +848,7 @@ Enhancements in v2.0
    Re-arranged the screen layout and colors.
 
    Created local include files for I/O and serial interface definitions
-   rather than using the sometimes incompatible system include files. 
+   rather than using the sometimes incompatible system include files.
 
    Broke up the "C" source code into four separate source modules.
 
@@ -860,7 +860,7 @@ Enhancements in v1.5
    wide memory chips are becoming more common.
 
    A new test algorithm was added to improve detection of data
-   pattern sensitive errors. 
+   pattern sensitive errors.
 
 
 Enhancements in v1.4
@@ -872,7 +872,7 @@ Enhancements in v1.4
 
    On-line commands are now available for configuring Memtest86 on
    the fly (see On-line Commands).
-	
+
 
 Enhancements in v1.3
    Scrolling of memory errors is now provided.  Previously, only one screen

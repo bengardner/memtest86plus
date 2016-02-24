@@ -50,7 +50,7 @@ typedef struct {
    uint8_t cpu_flag;
 #define CPU_ENABLED             1       /* Processor is available */
 #define CPU_BOOTPROCESSOR       2       /* Processor is the BP */
-   uint32_t cpu_signature;           
+   uint32_t cpu_signature;
 #define CPU_STEPPING_MASK 0x0F
 #define CPU_MODEL_MASK  0xF0
 #define CPU_FAMILY_MASK 0xF00
@@ -102,7 +102,7 @@ typedef struct {
    uint16_t irqflag;
    uint8_t  srcbusid;
    uint8_t  srcbusirq;
-   uint8_t  destapic;     
+   uint8_t  destapic;
 #define MP_APIC_ALL     0xFF
    uint8_t  destapiclint;
 } mp_local_interrupt_entry_t;
@@ -112,7 +112,7 @@ typedef struct {
    char signature[8];   // "RSD "
    uint8_t  checksum;
    char oemid[6];
-   uint8_t revision; 
+   uint8_t revision;
    uint32_t rsdt;
    uint32_t length;
    uint32_t xrsdt[2];
@@ -124,7 +124,7 @@ typedef struct {
 typedef struct {
    char signature[4];   // "RSDT"
    uint32_t length;
-   uint8_t revision; 
+   uint8_t revision;
    uint8_t  checksum;
    char oemid[18];
    char cid[4];
@@ -133,7 +133,7 @@ typedef struct {
 
 #define MADTSignature ('A' | ('P' << 8) | ('I' << 16) | ('C' << 24))
 typedef struct {
-   uint8_t type; 
+   uint8_t type;
    uint8_t length;
    uint8_t acpi_id;
    uint8_t apic_id;       /* Local APIC number */

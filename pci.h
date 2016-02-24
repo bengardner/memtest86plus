@@ -1,9 +1,9 @@
 #ifndef MEMTEST_PCI_H
 #define MEMTEST_PCI_H
 
-int pci_conf_read(unsigned bus, unsigned dev, unsigned fn, unsigned reg, 
+int pci_conf_read(unsigned bus, unsigned dev, unsigned fn, unsigned reg,
 	unsigned len, unsigned long *value);
-int pci_conf_write(unsigned bus, unsigned dev, unsigned fn, unsigned reg, 
+int pci_conf_write(unsigned bus, unsigned dev, unsigned fn, unsigned reg,
 	unsigned len, unsigned long value);
 int pci_init(void);
 
@@ -34,7 +34,7 @@ int pci_init(void);
 #define  PCI_STATUS_FAST_BACK	0x80	/* Accept fast-back to back */
 #define  PCI_STATUS_PARITY	0x100	/* Detected parity error */
 #define  PCI_STATUS_DEVSEL_MASK	0x600	/* DEVSEL timing */
-#define  PCI_STATUS_DEVSEL_FAST	0x000	
+#define  PCI_STATUS_DEVSEL_FAST	0x000
 #define  PCI_STATUS_DEVSEL_MEDIUM 0x200
 #define  PCI_STATUS_DEVSEL_SLOW 0x400
 #define  PCI_STATUS_SIG_TARGET_ABORT 0x800 /* Set on target abort */
@@ -63,8 +63,8 @@ int pci_init(void);
 
 /*
  * Base addresses specify locations in memory or I/O space.
- * Decoded size can be determined by writing a value of 
- * 0xffffffff to the register, and reading it back.  Only 
+ * Decoded size can be determined by writing a value of
+ * 0xffffffff to the register, and reading it back.  Only
  * 1 bits are decoded.
  */
 #define PCI_BASE_ADDRESS_0	0x10	/* 32 bits */

@@ -32,7 +32,7 @@ void rand_seed( unsigned int seed1, unsigned int seed2, int cpu)
    int me;
 
    me = cpu*16;
-   SEED_X[me] = seed1;   
+   SEED_X[me] = seed1;
    SEED_Y[me] = seed2;
 }
 

@@ -7,7 +7,7 @@
 #define AMD_INDEX_IO_PORT	0xCD6
 #define AMD_DATA_IO_PORT	0xCD7
 #define AMD_SMBUS_BASE_REG	0x2C
- 
+
 void get_spd_spec(void);
 int get_ddr2_module_size(int rank_density_byte, int rank_num_byte);
 int get_ddr3_module_size(int sdram_capacity, int prim_bus_width, int sdram_width, int ranks);

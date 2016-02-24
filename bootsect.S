@@ -359,9 +359,9 @@ turnoffcursor:
   movb  $0x01, %ah      # turn off the cursor
   movb  $0x00, %bh
   movw  $0x2000, %cx
-  int   $0x10 
+  int   $0x10
 	ret
-	
+
 sectors:
 	.word 0
 

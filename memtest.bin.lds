@@ -6,9 +6,9 @@ SECTIONS {
 	. = 0;
 	.bootsect : { *(.bootsect) }
 	.setup : { *(.setup) }
-	.memtest : { 
+	.memtest : {
 		_start = . ;
-		*(.data) 
+		*(.data)
 		_end = . ;
 	}
 	_syssize = (_end - _start + 15) >> 4;

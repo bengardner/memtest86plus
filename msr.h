@@ -6,8 +6,8 @@
  * Note: the rd* operations modify the parameters directly (without using
  * pointer indirection), this allows gcc to optimize better
  */
- 
-#define __FIXUP_ALIGN ".align 8" 
+
+#define __FIXUP_ALIGN ".align 8"
 #define __FIXUP_WORD ".quad"
 #define EFAULT	14 /* Bad address */
 
@@ -29,7 +29,7 @@
          ".previous\n" \
          : "=a" (val1), "=d" (val2), "=&r" (_rc) \
 				 : "c" (msr), "2" (0), "i" (-EFAULT)); \
-				 	_rc; })				 	
+				 	_rc; })
 */
 
 #define wrmsr(msr,val1,val2) \

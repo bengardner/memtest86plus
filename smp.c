@@ -63,16 +63,16 @@ void barrier()
                 barr->st1.slock = 0;   /* Hold up any processes re-entering */
                 barr->st2.slock = 1;   /* Release the other processes */
                 barr->count++;
-                spin_unlock(&barr->lck); 
+                spin_unlock(&barr->lck);
         } else {
-                spin_unlock(&barr->lck); 
+                spin_unlock(&barr->lck);
                 spin_wait(&barr->st2);	/* wait for peers to arrive */
-                spin_lock(&barr->lck);   
-                if (++barr->count == barr->maxproc) { 
-                        barr->st1.slock = 1; 
-                        barr->st2.slock = 0; 
+                spin_lock(&barr->lck);
+                if (++barr->count == barr->maxproc) {
+                        barr->st1.slock = 1;
+                        barr->st2.slock = 0;
                 }
-                spin_unlock(&barr->lck); 
+                spin_unlock(&barr->lck);
         }
 }
 
@@ -87,16 +87,16 @@ void s_barrier()
                 barr->s_st1.slock = 0;   /* Hold up any processes re-entering */
                 barr->s_st2.slock = 1;   /* Release the other processes */
                 barr->s_count++;
-                spin_unlock(&barr->s_lck); 
+                spin_unlock(&barr->s_lck);
         } else {
-                spin_unlock(&barr->s_lck); 
+                spin_unlock(&barr->s_lck);
                 spin_wait(&barr->s_st2);	/* wait for peers to arrive */
-                spin_lock(&barr->s_lck);   
-                if (++barr->s_count == barr->s_maxproc) { 
-                        barr->s_st1.slock = 1; 
-                        barr->s_st2.slock = 0; 
+                spin_lock(&barr->s_lck);
+                if (++barr->s_count == barr->s_maxproc) {
+                        barr->s_st1.slock = 1;
+                        barr->s_st2.slock = 0;
                 }
-                spin_unlock(&barr->s_lck); 
+                spin_unlock(&barr->s_lck);
         }
 }
 
@@ -119,20 +119,20 @@ void PUT_MEM32(uintptr_t addr, uint32_t val)
    *((volatile uint32_t *)addr) = val;
 }
 
-static void inline 
+static void inline
 APIC_WRITE(unsigned reg, uint32_t val)
 {
    APIC[reg][0] = val;
 }
 
-static inline uint32_t 
+static inline uint32_t
 APIC_READ(unsigned reg)
 {
    return APIC[reg][0];
 }
 
 
-static void 
+static void
 SEND_IPI(unsigned apic_id, unsigned trigger, unsigned level, unsigned mode,
 	    uint8_t vector)
 {
@@ -142,7 +142,7 @@ SEND_IPI(unsigned apic_id, unsigned trigger, unsigned level, unsigned mode,
    APIC_WRITE(APICR_ICRHI, v | (apic_id << 24));
 
    v = APIC_READ(APICR_ICRLO) & ~0xcdfff;
-   v |= (APIC_DEST_DEST << APIC_ICRLO_DEST_OFFSET) 
+   v |= (APIC_DEST_DEST << APIC_ICRLO_DEST_OFFSET)
       | (trigger << APIC_ICRLO_TRIGGER_OFFSET)
       | (level << APIC_ICRLO_LEVEL_OFFSET)
       | (mode << APIC_ICRLO_DELMODE_OFFSET)
@@ -152,7 +152,7 @@ SEND_IPI(unsigned apic_id, unsigned trigger, unsigned level, unsigned mode,
 
 
 // Silly way of busywaiting, but we don't have a timer
-void delay(unsigned us) 
+void delay(unsigned us)
 {
    unsigned freq = 1000; // in MHz, assume 1GHz CPU speed
    uint64_t cycles = us * freq;
@@ -172,7 +172,7 @@ memset (void *dst,
         int   len)
 {
    int i;
-   for (i = 0 ; i < len ; i++ ) { 
+   for (i = 0 ; i < len ; i++ ) {
       *((char *) dst + i) = value;
    }
 }
@@ -245,7 +245,7 @@ void kick_cpu(unsigned cpu_num)
       if (send_pending) {
 	 cprint(LINE_STATUS+3, 0, "SMP: STARTUP IPI was never sent");
       }
-      
+
       delay(100000 / DELAY_FACTOR);
 
       err = APIC_READ(APICR_ESR) & 0xef;
@@ -265,7 +265,7 @@ void kick_cpu(unsigned cpu_num)
 void boot_ap(unsigned cpu_num)
 {
    unsigned num_sipi, apic_id;
-   extern uint8_t gdt; 
+   extern uint8_t gdt;
    extern uint8_t _ap_trampoline_start;
    extern uint8_t _ap_trampoline_protmode;
    unsigned len = &_ap_trampoline_protmode - &_ap_trampoline_start;
@@ -316,7 +316,7 @@ void boot_ap(unsigned cpu_num)
       if (send_pending) {
 	 cprint(LINE_STATUS+3, 0, "SMP: STARTUP IPI was never sent");
       }
-      
+
       delay(100000 / DELAY_FACTOR);
 
       err = APIC_READ(APICR_ESR) & 0xef;
@@ -359,12 +359,12 @@ bool read_mp_config_table(uintptr_t addr)
 
    tab_entry_ptr = ((uint8_t*)mpc) + sizeof(mp_config_table_header_t);
    mpc_table_end = ((uint8_t*)mpc) + mpc->length;
-      
+
    while (tab_entry_ptr < mpc_table_end) {
       switch (*tab_entry_ptr) {
 	      case MP_PROCESSOR: {
 		 			mp_processor_entry_t *pe = (mp_processor_entry_t*)tab_entry_ptr;
-	
+
 					 if (pe->cpu_flag & CPU_BOOTPROCESSOR) {
 					    // BSP is CPU 0
 					    cpu_num_to_apic_id[0] = pe->apic_id;
@@ -373,12 +373,12 @@ bool read_mp_config_table(uintptr_t addr)
 					    num_cpus++;
 					 }
 					 found_cpus++;
-					    
+
 					 // we cannot handle non-local 82489DX apics
 					 if ((pe->apic_ver & 0xf0) != 0x10) {
 					    return 0;
 					 }
-				
+
 					 tab_entry_ptr += sizeof(mp_processor_entry_t);
 					 break;
 				}
@@ -396,7 +396,7 @@ bool read_mp_config_table(uintptr_t addr)
 	      case MP_LINTSRC:
 					 tab_entry_ptr += sizeof(mp_local_interrupt_entry_t);
 					 break;
-	      default: 
+	      default:
 		 			 return FALSE;
       }
    }
@@ -430,7 +430,7 @@ rsdp_t *scan_for_rsdp(uintptr_t addr, uint32_t length)
 
    while ((uintptr_t)addr < end) {
       rp = (rsdp_t*)addr;
-      if (*(unsigned int *)addr == RSDPSignature && 
+      if (*(unsigned int *)addr == RSDPSignature &&
 		checksum((unsigned char*)addr, rp->length) == 0) {
 	   return rp;
       }
@@ -455,13 +455,13 @@ int parse_madt(uintptr_t addr) {
    tab_entry_ptr = ((uint8_t*)mpc) + sizeof(mp_config_table_header_t);
    mpc_table_end = ((uint8_t*)mpc) + mpc->length;
    	while (tab_entry_ptr < mpc_table_end) {
-		
+
 			madt_processor_entry_t *pe = (madt_processor_entry_t*)tab_entry_ptr;
 			if (pe->type == MP_PROCESSOR) {
 				if (pe->enabled) {
 					if (num_cpus < MAX_CPUS) {
 						cpu_num_to_apic_id[num_cpus] = pe->apic_id;
-		
+
 						/* the first CPU is the BSP, don't increment */
 						if (found_cpus) {
 							num_cpus++;
@@ -513,7 +513,7 @@ void smp_find_cpus()
    memset(&AP, 0, sizeof AP);
 
 	if(v->fail_safe & 8)
-	{		
+	{
 	   // Search for the Floating MP structure pointer
 	   fp = scan_for_floating_ptr_struct(0x0, 0x400);
 	   if (fp == NULL) {
@@ -530,11 +530,11 @@ void smp_find_cpus()
 	       		fp = scan_for_floating_ptr_struct(address, 0x400);
 	        }
 	   }
-	
+
 	   if (fp != NULL) {
 				// We have a floating MP pointer
 				// Is this a default configuration?
-				
+
 				if (fp->feature[0] > 0 && fp->feature[0] <=7) {
 				    // This is a default config so plug in the numbers
 				    num_cpus = 2;
@@ -543,7 +543,7 @@ void smp_find_cpus()
 				    cpu_num_to_apic_id[1] = 1;
 				    return;
 				}
-				
+
 				// Do we have a pointer to a MP configuration table?
 				if ( fp->phys_addr != 0) {
 				    if (read_mp_config_table(fp->phys_addr)) {
@@ -569,7 +569,7 @@ void smp_find_cpus()
        		rp = scan_for_rsdp(address, 0x400);
         }
    }
-    
+
    if (rp == NULL) {
 		/* RSDP not found, give up */
 		return;
@@ -578,18 +578,18 @@ void smp_find_cpus()
    /* Found the RSDP, now get either the RSDT or XSDT */
    if (rp->revision >= 2) {
 			rt = (rsdt_t *)rp->xrsdt[0];
-			
+
 			if (rt == 0) {
 				return;
 			}
-			// Validate the XSDT 
+			// Validate the XSDT
 			if (*(unsigned int *)rt != XSDTSignature) {
 				return;
 			}
 			if ( checksum((unsigned char*)rt, rt->length) != 0) {
 				return;
 			}
-			
+
     } else {
 			rt = (rsdt_t *)rp->rsdt;
 			if (rt == 0) {
@@ -623,13 +623,13 @@ void smp_find_cpus()
       tab_ptr += 4;
     }
 }
-	
+
 unsigned my_apic_id()
 {
    return (APIC[APICR_ID][0]) >> 24;
 }
 
-void smp_ap_booted(unsigned cpu_num) 
+void smp_ap_booted(unsigned cpu_num)
 {
    AP[cpu_num].started = TRUE;
 }

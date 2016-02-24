@@ -1,7 +1,7 @@
-/* --*- C -*-- 
- * 
+/* --*- C -*--
+ *
  * By Jani Averbach, Jaa@iki.fi, 2001
- * 
+ *
  * Released under version 2 of the Gnu Public License.
  *
  */

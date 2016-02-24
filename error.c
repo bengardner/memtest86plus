@@ -33,11 +33,11 @@ static int syn, chan, len=1;
  */
 void error(ulong *adr, ulong good, ulong bad)
 {
-	
+
 	ulong xor;
 
 	spin_lock(&barr->mutex);
-	
+
 	xor = good ^ bad;
 
 #ifdef USB_WAR
@@ -54,17 +54,17 @@ void error(ulong *adr, ulong good, ulong bad)
 	/* A sporadic bug exists in test #6, with SMP enabled, that
 	 * reports false positives on < 65K-0.5MB range. I was
 	 * not able to solve this. After investigations, it seems
-	 * related to a BIOS issue similiar to the one solved by 
+	 * related to a BIOS issue similiar to the one solved by
 	 * USB_WAR, but for MP Table.
 	 */
-	/* Solved 
-	if (test == 6 && (ulong)adr <= 0x07FFFF && num_cpus > 1) 
+	/* Solved
+	if (test == 6 && (ulong)adr <= 0x07FFFF && num_cpus > 1)
 	{
 	  cprint(6,78,"-"); // Debug
 		return;
 	}
 	*/
-	
+
 	common_err(adr, good, bad, xor, 0);
 	spin_unlock(&barr->mutex);
 }
@@ -101,14 +101,14 @@ static void update_err_counts(void)
 		beep(600);
 		beep(1000);
 	}
-	
+
 	if (v->pass && v->ecount == 0) {
 		cprint(LINE_MSG, COL_MSG,
 			"                                            ");
 	}
 	++(v->ecount);
 	tseq[test].errors++;
-		
+
 }
 
 static void print_err_counts(void)
@@ -124,7 +124,7 @@ static void print_err_counts(void)
 */
 
 	/* Paint the error messages on the screen red to provide a vivid */
-	/* indicator that an error has occured */ 
+	/* indicator that an error has occured */
 	if ((v->printmode == PRINTMODE_ADDRESSES ||
 			v->printmode == PRINTMODE_PATTERNS) &&
 			v->msg_line < 24) {
@@ -138,7 +138,7 @@ static void print_err_counts(void)
 /*
  * Print an individual error
  */
-void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type) 
+void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type)
 {
 	int i, j, n, x, flag=0;
 	ulong page, offset;
@@ -171,7 +171,7 @@ void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type)
 			page = page_of(adr);
 			offset = (ulong)adr & 0xFFF;
 		}
-			
+
 		/* Calc upper and lower error addresses */
 		if (v->erri.low_addr.page > page) {
 			v->erri.low_addr.page = page;
@@ -248,7 +248,7 @@ void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type)
 			    x += 10;
 			  }
 			}
-			
+
 			cprint(LINE_HEADER+0, 64,   "Test  Errors");
 			v->erri.hdr_flag++;
 		}
@@ -293,7 +293,7 @@ void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type)
 			}
 			x += 10;
 		  }
-		  			
+
 		  for (i=0; tseq[i].msg != NULL; i++) {
 			dprint(LINE_HEADER+1+i, 66, i, 2, 0);
 			dprint(LINE_HEADER+1+i, 68, tseq[i].errors, 8, 0);
@@ -321,7 +321,7 @@ void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type)
 		/* Check for keyboard input */
 		check_input();
 		scroll();
-	
+
 		if ( type == 2 || type == 3) {
 			page = (ulong)adr;
 			offset = good;
@@ -340,10 +340,10 @@ void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type)
 
 		if (type == 3) {
 			/* ECC error */
-			cprint(v->msg_line, 36, 
+			cprint(v->msg_line, 36,
 			  bad?"corrected           ": "uncorrected         ");
 			hprint2(v->msg_line, 60, syn, 4);
-			cprint(v->msg_line, 68, "ECC"); 
+			cprint(v->msg_line, 68, "ECC");
 			dprint(v->msg_line, 74, chan, 2, 0);
 		} else if (type == 2) {
 			cprint(v->msg_line, 36, "Parity error detected                ");
@@ -374,7 +374,7 @@ void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type)
 		}
 		/* Process the address in the pattern administration */
 		patnchg=insertaddress ((ulong) adr);
-		if (patnchg) { 
+		if (patnchg) {
 			printpatn();
 		}
 		break;
@@ -391,7 +391,7 @@ void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type)
 /*
  * Print an ecc error
  */
-void print_ecc_err(unsigned long page, unsigned long offset, 
+void print_ecc_err(unsigned long page, unsigned long offset,
 	int corrected, unsigned short syndrome, int channel)
 {
 	++(v->ecc_ecount);
@@ -404,7 +404,7 @@ void print_ecc_err(unsigned long page, unsigned long offset,
 /*
  * Print a parity error message
  */
-void parity_err( unsigned long edi, unsigned long esi) 
+void parity_err( unsigned long edi, unsigned long esi)
 {
 	unsigned long addr;
 
@@ -451,7 +451,7 @@ void printpatn (void)
                x+=22;
        }
 }
-	
+
 /*
  * Show progress by displaying elapsed time and update bar graphs
  */
@@ -468,8 +468,8 @@ void do_tick(int me)
 		spin_idx[me] = 0;
 	}
 	cplace(8, me+7, spin[spin_idx[me]]);
-	
-	
+
+
 	/* Check for keyboard input */
 	if (me == mstr_cpu) {
 		check_input();
@@ -487,7 +487,7 @@ void do_tick(int me)
 	if (v->ecount) {
 		print_err_counts();
 	}
-	
+
 	nticks++;
 	v->total_ticks++;
 
@@ -508,7 +508,7 @@ void do_tick(int me)
 		cprint(2, COL_MID+9+v->tptr, "#");
 		v->tptr++;
 	}
-	
+
 	if (v->pass_ticks) {
 		pct = 100*v->total_ticks/v->pass_ticks;
 		if (pct > 100) {
@@ -553,7 +553,7 @@ void do_tick(int me)
 				}
 			}
 			pct += n*2;
-			
+
 		}
 
 		/* Only some bits in error */
@@ -577,7 +577,7 @@ void do_tick(int me)
 */
 		dprint(LINE_HEADER+0, 25, pct, 3, 1);
 	}
-		
+
 
 	/* We can't do the elapsed time unless the rdtsc instruction
 	 * is supported
@@ -595,10 +595,10 @@ void do_tick(int me)
 		t += (l / v->clks_msec) / 1000;
 		i = t % 60;
 		j = i % 10;
-	
+
 		if(j != v->each_sec)
-		{	
-			
+		{
+
 			dprint(LINE_TIME, COL_TIME+9, i % 10, 1, 0);
 			dprint(LINE_TIME, COL_TIME+8, i / 10, 1, 0);
 			t /= 60;
@@ -607,16 +607,16 @@ void do_tick(int me)
 			dprint(LINE_TIME, COL_TIME+5, i / 10, 1, 0);
 			t /= 60;
 			dprint(LINE_TIME, COL_TIME, t, 4, 0);
-		
+
 			if(v->check_temp > 0 && !(v->fail_safe & 4))
 				{
-					coretemp();	
-				}	
-			v->each_sec = j;	
+					coretemp();
+				}
+			v->each_sec = j;
 		}
-	
+
 	}
-	
+
 
 
 	/* Poll for ECC errors */
