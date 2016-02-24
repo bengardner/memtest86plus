@@ -15,6 +15,18 @@ CC=gcc
 CFLAGS= -Wall -march=i486 -m32 -O0 -fomit-frame-pointer -fno-builtin \
 	-ffreestanding -fPIC $(SMP_FL) -fno-stack-protector -fgnu89-inline
 
+ifneq ($(SERIAL_CONSOLE_DEFAULT),)
+	CFLAGS += -DSERIAL_CONSOLE_DEFAULT=$(SERIAL_CONSOLE_DEFAULT)
+endif
+
+ifneq ($(SERIAL_BAUD_RATE),)
+	CFLAGS += -DSERIAL_BAUD_RATE=$(SERIAL_BAUD_RATE)
+endif
+
+ifneq ($(SERIAL_TTY),)
+	CFLAGS += -DSERIAL_TTY=$(SERIAL_TTY)
+endif
+
 # This reverts a change introduced with recent binutils (post
 # http://sourceware.org/bugzilla/show_bug.cgi?id=10569).  Needed to
 # ensure Multiboot header is within the limit offset.

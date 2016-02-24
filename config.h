@@ -14,28 +14,42 @@
 /* CONSERVATIVE_SMP - If set to 0, SMP will be enabled by default */
 /* Might be enabled in future revision after extensive testing */
 /* In all cases, SMP is disabled by defaut on server platform */
+#ifndef CONSERVATIVE_SMP
 #define CONSERVATIVE_SMP 1
+#endif
 
 /* BEEP_MODE - Beep on error. Default off, Change to 1 to enable */
+#ifndef BEEP_MODE
 #define BEEP_MODE 0
+#endif
 
 /* BEEP_END_NO_ERROR - Beep at end of each pass without error. Default off, Change to 1 to enable */
+#ifndef BEEP_END_NO_ERROR
 #define BEEP_END_NO_ERROR 0
+#endif
 
 /* PARITY_MEM - Enables support for reporting memory parity errors */
 /*	Experimental, normally enabled */
+#ifndef PARITY_MEM
 #define PARITY_MEM
+#endif
 
 /* SERIAL_CONSOLE_DEFAULT -  The default state of the serial console. */
 /*	This is normally off since it slows down testing.  Change to a 1 */
 /*	to enable. */
+#ifndef SERIAL_CONSOLE_DEFAULT
 #define SERIAL_CONSOLE_DEFAULT 0
+#endif
 
 /* SERIAL_TTY - The default serial port to use. 0=ttyS0, 1=ttyS1 */
+#ifndef SERIAL_TTY
 #define SERIAL_TTY 0
+#endif
 
 /* SERIAL_BAUD_RATE - Baud rate for the serial console */
+#ifndef SERIAL_BAUD_RATE
 #define SERIAL_BAUD_RATE 9600
+#endif
 
 /* SCRN_DEBUG - extra check for SCREEN_BUFFER
  */
