@@ -3682,7 +3682,7 @@ static void poll_timings_k15(void) {
 static void poll_timings_k16(void) {
 
 	ulong dramt0, dramt1;
-	int cas, rcd, rp, rc, ras;
+	int cas, rcd, rp, ras;
 
 	pci_conf_read(0, 24, 2, 0x200, 4, &dramt0);
 	pci_conf_read(0, 24, 2, 0x204, 4, &dramt1);
@@ -3691,8 +3691,6 @@ static void poll_timings_k16(void) {
 	rcd = ((dramt0 >> 8) & 0x1F);
 	rp = ((dramt0 >> 16) & 0x1F);
 	ras = ((dramt0 >> 24) & 0x3F);
-
-	rc = (dramt1 & 0x3F);
 
 	print_ram_line(cas, rcd, rp, ras, 1);
 }

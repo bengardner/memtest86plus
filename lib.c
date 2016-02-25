@@ -804,14 +804,14 @@ void ttyprint(int y, int x, const char *p)
 
 void serial_echo_init(void)
 {
-	int comstat, hi, lo, serial_div;
+	int comstat, serial_div;
 	unsigned char lcr;
 
 	/* read the Divisor Latch */
 	comstat = serial_echo_inb(UART_LCR);
 	serial_echo_outb(comstat | UART_LCR_DLAB, UART_LCR);
-	hi = serial_echo_inb(UART_DLM);
-	lo = serial_echo_inb(UART_DLL);
+	serial_echo_inb(UART_DLM);
+	serial_echo_inb(UART_DLL);
 	serial_echo_outb(comstat, UART_LCR);
 
 	/* now do hardwired init */
