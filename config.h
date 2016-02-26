@@ -64,3 +64,13 @@
 /*	Normally enabled */
 #define USB_WAR
 
+/* coreboot version number for memtest86+ - 3 characters. */
+#define COREBOOT_VERSION_NUMBER_STRING "001"
+
+/* The memtest version string with the coreboot badge (28 chars total)
+ * This is 25 characters plus the 3 character version number.
+ *                             "0123456789012345678901234567" */
+#define MEMTEST_VERSION_STRING "Memtest86+ 5.01 coreboot " COREBOOT_VERSION_NUMBER_STRING
+
+/* Location of flashing '+' symbol */
+#define MEMTEST_PLUS_LOCATION 9

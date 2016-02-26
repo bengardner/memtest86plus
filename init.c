@@ -167,13 +167,11 @@ static void display_init(void)
 	for(i=0, pp=(char *)(SCREEN_ADR+1); i<TITLE_WIDTH; i++, pp+=2) {
 		*pp = 0x20;
 	}
-	cprint(0, 0, "      Memtest86  5.01        ");
+	cprint(0, 0, MEMTEST_VERSION_STRING);
 
 	/* Set Blinking "+" */
-	for(i=0, pp=(char *)(SCREEN_ADR+1); i<2; i++, pp+=30) {
-		*pp = 0xA4;
-	}
-	cprint(0, 15, "+");
+	pp=(char *)(SCREEN_ADR+1 + (MEMTEST_PLUS_LOCATION * 2));
+	*pp = 0xA4;
 
 	/* Do reverse video for the bottom display line */
 	for(i=0, pp=(char *)(SCREEN_ADR+1+(24 * 160)); i<80; i++, pp+=2) {
