@@ -94,3 +94,24 @@ install-precomp:
 
 dos: all
 	cat mt86+_loader memtest.bin > memtest.exe
+
+junit.xml:
+	echo '<?xml version="1.0" encoding="utf-8"?><testsuite>' > $@.tmp
+	echo "<testcase classname='memtest86+' name='memtest86+'>" >> $@.tmp
+	$(MAKE) all >> $@.tmp.2 2>&1 && type="system-out" || type="failure"; \
+	cat $@.tmp.2; \
+	if [ "$$type" = "failure" ]; then \
+		echo "<failure type='buildFailed'>" >> $@.tmp; \
+		echo "Building memtest86+ Failed"; \
+	else \
+		echo "<$$type>" >> $@.tmp; \
+		echo "Building memtest86+ Succeeded"; \
+	fi; \
+	echo '<![CDATA[' >> $@.tmp; \
+	cat $@.tmp.2 >> $@.tmp; \
+	echo "]]></$$type>" >>$@.tmp
+	rm -f $@.tmp.2
+	echo "</testcase>" >> $@.tmp
+	echo "</testsuite>" >> $@.tmp
+	mv $@.tmp $@
+	echo
