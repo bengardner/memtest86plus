@@ -39,7 +39,7 @@ FDISK=/dev/fd0
 MEMTEST_CFLAGS := -Wall -march=i486 -m32 -fomit-frame-pointer -fno-builtin
 MEMTEST_CFLAGS += -MMD -ffreestanding
 
-CFLAGS := $(MEMTEST_CFLAGS) -O0 -fPIC $(SMP_FL) -fno-stack-protector
+CFLAGS := $(MEMTEST_CFLAGS) -O0 -fPIC $(SMP_FL) -fno-stack-protector -fgnu89-inline
 
 ifneq ($(SERIAL_CONSOLE_DEFAULT),)
 CFLAGS+= -DSERIAL_CONSOLE_DEFAULT=$(SERIAL_CONSOLE_DEFAULT) -DSERIAL_TTY=$(SERIAL_TTY)
