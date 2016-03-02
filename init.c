@@ -17,8 +17,8 @@
 #include "smp.h"
 #include "io.h"
 #include "spd.h"
-#include "pci.h"
 #include "controller.h"
+#include "pci.h"
 
 extern struct tseq tseq[];
 extern short memsz_mode;
@@ -921,10 +921,8 @@ void cpu_type(void)
 				break;
 			default:
 				cprint(0, COL_MID, "Unknown Intel");
- 				break;
-			break;
-		    }
-
+				break;
+			}
 		}
 		break;
 
