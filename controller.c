@@ -1472,7 +1472,7 @@ static void poll_fsb_amd64(void) {
 	unsigned long dramchr;
 	float clockratio;
 	double dramclock;
-	unsigned int dummy[3];
+	unsigned int dummy[4];
 	int ram_type;
 
 	float coef = 10;
@@ -2899,13 +2899,13 @@ static void poll_timings_nf4ie(void) {
 
 static void poll_timings_i875(void) {
 
-	ulong dev6, dev62;
+	ulong dev6;
 	ulong temp;
 	float cas;
 	int rcd, rp, ras, chan;
 	long *ptr, *ptr2;
 
-	pci_conf_read( 0, 6, 0, 0x40, 4, &dev62);
+	pci_conf_read( 0, 6, 0, 0x40, 4, &dev6);
 	ptr2=(long*)(dev6+0x68);
 
 	/* Read the MMR Base Address & Define the pointer */
