@@ -110,6 +110,8 @@
 		<F N="memsize.c"/>
 		<F N="msr.h"/>
 		<F N="mt86+_loader.asm"/>
+		<F N="multiboot.c"/>
+		<F N="multiboot.h"/>
 		<F N="patn.c"/>
 		<F N="pci.c"/>
 		<F N="pci.h"/>

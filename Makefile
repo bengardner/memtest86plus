@@ -41,13 +41,19 @@ MEMTEST_CFLAGS += -MMD -ffreestanding
 
 CFLAGS := $(MEMTEST_CFLAGS) -O0 -fPIC $(SMP_FL) -fno-stack-protector -fgnu89-inline
 
+# This reverts a change introduced with recent binutils (post
+# http://sourceware.org/bugzilla/show_bug.cgi?id=10569).  Needed to
+# ensure Multiboot header is within the limit offset.
+LD += -z max-page-size=0x1000
+
 ifneq ($(SERIAL_CONSOLE_DEFAULT),)
 CFLAGS+= -DSERIAL_CONSOLE_DEFAULT=$(SERIAL_CONSOLE_DEFAULT) -DSERIAL_TTY=$(SERIAL_TTY)
 endif
 
 OBJS= _head.o reloc.o main.o test.o init.o lib.o patn.o screen_buffer.o \
+      cpu1900.o \
       config.o cpuid.o linuxbios.o pci.o memsize.o spd.o error.o dmi.o controller.o \
-      smp.o vmem.o random.o cpu1900.o
+      smp.o vmem.o random.o multiboot.o
 DEPS=${OBJS:.o=.d}
 
 -include $(DEPS)

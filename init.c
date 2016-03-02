@@ -19,6 +19,7 @@
 #include "spd.h"
 #include "controller.h"
 #include "pci.h"
+#include "multiboot.h"
 
 extern struct tseq tseq[];
 extern short memsz_mode;
