@@ -15,11 +15,11 @@
 
 int slock = 0, lsr = 0;
 short serial_cons = SERIAL_CONSOLE_DEFAULT;
-#if SERIAL_TTY != 0 && SERIAL_TTY != 1
-#error Bad SERIAL_TTY. Only ttyS0 and ttyS1 are supported.
+#if SERIAL_TTY > 3
+#error Bad SERIAL_TTY. Only ttyS0 thru ttyS3 are supported.
 #endif
 short serial_tty = SERIAL_TTY;
-const short serial_base_ports[] = {0x3f8, 0x2f8};
+const short serial_base_ports[] = {0x3f8, 0x2f8, 0x3e8, 0x2e8};
 
 #if ((115200%SERIAL_BAUD_RATE) != 0)
 #error Bad default baud rate
@@ -33,12 +33,11 @@ struct ascii_map_str {
         int keycode;
 };
 
-inline void reboot(void)
+void reboot(void)
 {
-	
 	/* tell the BIOS to do a cold start */
 	*((unsigned short *)0x472) = 0x0;
-	
+
 	while(1)
 	{
 		outb(0xFE, 0x64);
@@ -171,7 +170,7 @@ unsigned long simple_strtoul(const char *cp, char **endp, unsigned int base) {
  * Scroll the error message area of the screen as needed
  * Starts at line LINE_SCROLL and ends at line 23
  */
-void scroll(void) 
+void scroll(void)
 {
 	int i, j;
 	char *s, tmp;
@@ -245,7 +244,7 @@ void cprint(int y, int x, const char *text)
         tty_print_line(y, x, text);
 }
 
-void itoa(char s[], int n) 
+void itoa(char s[], int n)
 {
   int i, sign;
 
@@ -284,7 +283,7 @@ void memcpy (void *dst, void *src, int len)
 	}
 	for (i = 0 ; i < len; i++) {
 		*d++ = *s++;
-	} 
+	}
 }
 
 /*
@@ -351,7 +350,7 @@ void dprint(int y, int x, ulong val, int len, int right)
 					continue;
 				}
 				if (k == 0 && flag == 0) {
-					continue;				
+					continue;
 				}
 				buf[i++] = k + '0';
 				val -= k * j;
@@ -497,7 +496,7 @@ struct eregs {
 	ulong cs;
 	ulong eflag;
 };
-	
+
 /* Handle an interrupt */
 void inter(struct eregs *trap_regs)
 {
@@ -588,11 +587,11 @@ void inter(struct eregs *trap_regs)
 	}
 }
 
-void set_cache(int val) 
+void set_cache(int val)
 {
 	switch(val) {
 	case 0:
-		cache_off();	
+		cache_off();
 		break;
 	case 1:
 		cache_on();
@@ -604,23 +603,24 @@ int get_key() {
 	int c;
 
 	c = inb(0x64);
-	if ((c & 1) == 0) {
-		if (serial_cons) {
-			int comstat;
-			comstat = serial_echo_inb(UART_LSR);
-			if (comstat & UART_LSR_DR) {
-				c = serial_echo_inb(UART_RX);
-				/* Pressing '.' has same effect as 'c'
-				   on a keyboard.
-				   Oct 056   Dec 46   Hex 2E   Ascii .
-				*/
-				return (ascii_to_keycode(c));
-			}
-		}
-		return(0);
+	/* check for PS/2 data and PS/2 present */
+	if ((c & 0x01) && (c != 0xFF)) {
+		return(inb(0x60));
 	}
-	c = inb(0x60);
-	return((c));
+	/* check serial port data */
+	if (serial_cons) {
+		int comstat;
+		comstat = serial_echo_inb(UART_LSR);
+		if ((comstat & UART_LSR_DR) && (comstat != 0xff)) {
+			c = serial_echo_inb(UART_RX);
+			/* Pressing '.' has same effect as 'c'
+			 * on a keyboard.
+			 * Oct 056   Dec 46   Hex 2E   Ascii .
+			 */
+			return (ascii_to_keycode(c));
+		}
+	}
+	return(0);
 }
 
 void check_input(void)
@@ -629,7 +629,7 @@ void check_input(void)
 
 	if ((c = get_key())) {
 		switch(c & 0x7f) {
-		case 1:	
+		case 1:
 			/* "ESC" key was pressed, bail out.  */
 			cprint(LINE_RANGE, COL_MID+23, "Halting... ");
 			reboot();
@@ -680,7 +680,7 @@ ulong getval(int x, int y, int result_shift)
 		buf[i] = ' ';
 	}
 	buf[sizeof(buf)/sizeof(buf[0]) -1] = '\0';
-	
+
 	wait_keyup();
 	done = 0;
 	n = 0;
@@ -734,7 +734,7 @@ ulong getval(int x, int y, int result_shift)
 		}
 		/* Don't allow anything to be entered after a suffix */
 		if (n > 0 && (
-			(buf[n-1] == 'p') || (buf[n-1] == 'g') || 
+			(buf[n-1] == 'p') || (buf[n-1] == 'g') ||
 			(buf[n-1] == 'm') || (buf[n-1] == 'k'))) {
 			buf[n] = ' ';
 		}
@@ -788,7 +788,7 @@ void ttyprint(int y, int x, const char *p)
 {
 	static char sx[3];
 	static char sy[3];
-	
+
 	sx[0]='\0';
 	sy[0]='\0';
 	x++; y++;
@@ -804,14 +804,14 @@ void ttyprint(int y, int x, const char *p)
 
 void serial_echo_init(void)
 {
-	int comstat, hi, lo, serial_div;
-	unsigned char lcr;	
+	int comstat, serial_div;
+	unsigned char lcr;
 
 	/* read the Divisor Latch */
 	comstat = serial_echo_inb(UART_LCR);
 	serial_echo_outb(comstat | UART_LCR_DLAB, UART_LCR);
-	hi = serial_echo_inb(UART_DLM);
-	lo = serial_echo_inb(UART_DLL);
+	serial_echo_inb(UART_DLM);
+	serial_echo_inb(UART_DLL);
 	serial_echo_outb(comstat, UART_LCR);
 
 	/* now do hardwired init */
@@ -841,7 +841,7 @@ int getnum(ulong val)
 {
 	int len = 0;
 	int i = 1;
-	
+
 	while(i <= val)
 	{
 		len++;
@@ -849,7 +849,7 @@ int getnum(ulong val)
 	}
 
 	return len;
-		
+
 }
 
 
@@ -881,7 +881,7 @@ void serial_echo_print(const char *p)
  */
 struct ascii_map_str ser_map[] =
 /*ascii keycode     ascii  keycode*/
-{ 
+{
   /* Special cases come first so I can leave
    * their ``normal'' mapping in the table,
    * without it being activated.

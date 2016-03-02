@@ -92,7 +92,7 @@ void get_config()
 					cprint(POP_Y+4, POP_X+5,
 						"Test Number [1-11]: ");
 					n = getval(POP_Y+4, POP_X+24, 0) - 1;
-					if (n <= 11) 
+					if (n <= 11)
 						{
 					    /* Deselect all tests */
 					    i = 0;
@@ -292,7 +292,7 @@ void get_config()
 					/* Set Beep On Error mode */
 					beepmode = !beepmode;
 					sflag++;
-					break;						
+					break;
 				case 11:
 				case 57:
 					/* 0/CR - Continue */
@@ -356,10 +356,10 @@ void get_config()
 			/* Display DMI Memory Info */
 			pop2up();
       print_dmi_info();
-			pop2down();			
+			pop2down();
 			break;
 		case 8:
-			/* Display SPD Data */			
+			/* Display SPD Data */
 			popdown();
 			show_spd();
 			popup();
@@ -386,13 +386,13 @@ void popup()
 {
 	int i, j;
 	char *pp;
-	
-	for (i=POP_Y; i<POP_Y + POP_H; i++) { 
-		for (j=POP_X; j<POP_X + POP_W; j++) { 
+
+	for (i=POP_Y; i<POP_Y + POP_H; i++) {
+		for (j=POP_X; j<POP_X + POP_W; j++) {
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
                         save[0][i-POP_Y][j-POP_X] = *pp;  /* Save screen */
                         set_scrn_buf(i, j, ' ');
-			*pp = ' ';		/* Clear */                        
+			*pp = ' ';		/* Clear */
 			pp++;
                         save[1][i-POP_Y][j-POP_X] = *pp;
 			*pp = 0x07;		/* Change Background to black */
@@ -405,9 +405,9 @@ void popdown()
 {
 	int i, j;
 	char *pp;
-	
-	for (i=POP_Y; i<POP_Y + POP_H; i++) { 
-		for (j=POP_X; j<POP_X + POP_W; j++) { 
+
+	for (i=POP_Y; i<POP_Y + POP_H; i++) {
+		for (j=POP_X; j<POP_X + POP_W; j++) {
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
 			*pp = save[0][i-POP_Y][j-POP_X]; /* Restore screen */
                         set_scrn_buf(i, j, save[0][i-POP_Y][j-POP_X]);
@@ -422,9 +422,9 @@ void popclear()
 {
 	int i, j;
 	char *pp;
-	
-	for (i=POP_Y; i<POP_Y + POP_H; i++) { 
-		for (j=POP_X; j<POP_X + POP_W; j++) { 
+
+	for (i=POP_Y; i<POP_Y + POP_H; i++) {
+		for (j=POP_X; j<POP_X + POP_W; j++) {
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
 			*pp = ' ';		/* Clear popup */
                         set_scrn_buf(i, j, ' ');
@@ -439,8 +439,8 @@ void pop2up()
 	int i, j;
 	char *pp;
 
-	for (i=POP2_Y; i<POP2_Y + POP2_H; i++) { 
-		for (j=POP2_X; j<POP2_X + POP2_W; j++) { 
+	for (i=POP2_Y; i<POP2_Y + POP2_H; i++) {
+		for (j=POP2_X; j<POP2_X + POP2_W; j++) {
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
 			save2[0][i-POP2_Y][j-POP2_X] = *pp;  /* Save screen */
 			set_scrn_buf(i, j, ' ');
@@ -458,8 +458,8 @@ void pop2down()
 	int i, j;
 	char *pp;
 
-	for (i=POP2_Y; i<POP2_Y + POP2_H; i++) { 
-		for (j=POP2_X; j<POP2_X + POP2_W; j++) { 
+	for (i=POP2_Y; i<POP2_Y + POP2_H; i++) {
+		for (j=POP2_X; j<POP2_X + POP2_W; j++) {
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
 			*pp = save2[0][i-POP2_Y][j-POP2_X]; /* Restore screen */
 			set_scrn_buf(i, j, save2[0][i-POP2_Y][j-POP2_X]);
@@ -475,8 +475,8 @@ void pop2clear()
 	int i, j;
 	char *pp;
 
-	for (i=POP2_Y; i<POP2_Y + POP2_H; i++) { 
-		for (j=POP2_X; j<POP2_X + POP2_W; j++) { 
+	for (i=POP2_Y; i<POP2_Y + POP2_H; i++) {
+		for (j=POP2_X; j<POP2_X + POP2_W; j++) {
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
 			*pp = ' ';		/* Clear popup */
 			set_scrn_buf(i, j, ' ');
@@ -505,14 +505,14 @@ void adj_mem(void)
 			if (v->pmap[i].end < v->plim_lower) {
 				continue;
 			}
-			
+
 			/* Ends past upper limit? */
 			if (v->pmap[i].end > v->plim_upper) {
-				v->selected_pages += 
+				v->selected_pages +=
 					v->plim_upper - v->plim_lower;
 			} else {
 				/* Straddles lower limit */
-				v->selected_pages += 
+				v->selected_pages +=
 					(v->pmap[i].end - v->plim_lower);
 			}
 			continue;
@@ -524,7 +524,7 @@ void adj_mem(void)
 				continue;
 			}
 			/* Straddles upper limit */
-			v->selected_pages += 
+			v->selected_pages +=
 				(v->plim_upper - v->pmap[i].start);
 		}
 	}

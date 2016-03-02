@@ -3,7 +3,6 @@
  * Released under version 2 of the Gnu Public License.
  * By Chris Brady
  */
-
 #include "test.h"
 #include "defs.h"
 #include "config.h"
@@ -35,7 +34,7 @@ void mem_size(void)
 	v->test_pages = 0;
 
 	/* Get the memory size from the BIOS */
-        /* Determine the memory map */
+	/* Determine the memory map */
 	if (query_linuxbios()) {
 		flag = 1;
 	} else if (query_pcbios()) {
@@ -87,7 +86,7 @@ static void sort_pmap(void)
 		if (i != j) {
 			struct pmap temp;
 			temp = v->pmap[i];
-			memmove(&v->pmap[j], &v->pmap[j+1], 
+			memmove(&v->pmap[j], &v->pmap[j+1],
 				(i -j)* sizeof(temp));
 			v->pmap[j] = temp;
 		}
@@ -150,20 +149,20 @@ static void memsize_820()
 			v->pmap[n].end = end >> 12;
 			v->test_pages += v->pmap[n].end - v->pmap[n].start;
 			n++;
-#if 0			
+#if 0
 	 		int epmap = 0;
 	 		int lpmap = 0;
 	 		if(n > 12) { epmap = 34; lpmap = -12; }
 			hprint (11+n+lpmap,0+epmap,v->pmap[n-1].start);
 			hprint (11+n+lpmap,10+epmap,v->pmap[n-1].end);
 			hprint (11+n+lpmap,20+epmap,v->pmap[n-1].end - v->pmap[n-1].start);
-			dprint (11+n+lpmap,30+epmap,nm[i].type,0,0);	
-#endif				
+			dprint (11+n+lpmap,30+epmap,nm[i].type,0,0);
+#endif
 		}
 	}
 	v->msegs = n;
 }
-	
+
 static void memsize_801(void)
 {
 	ulong mem_size;
@@ -191,7 +190,7 @@ static void memsize_801(void)
 /*
  * Sanitize the BIOS e820 map.
  *
- * Some e820 responses include overlapping entries.  The following 
+ * Some e820 responses include overlapping entries.  The following
  * replaces the original e820 map with a new one, removing overlaps.
  *
  */

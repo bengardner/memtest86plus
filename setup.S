@@ -5,7 +5,6 @@
  *
  * 1-Jan-96 Modified by Chris Brady for use as a boot/loader for memtest-86.
  */
-
 #define __ASSEMBLY__
 #include "defs.h"
 
@@ -13,7 +12,7 @@
 .section ".setup", "ax", @progbits
 .globl start
 start:
-# ok, the read went well 
+# ok, the read went well
 # now we want to move to protected mode ...
 
 
@@ -22,7 +21,7 @@ start:
 	outb	%al, $0x70
 
 # The system will move itself to its rightful place.
-# reload the segment registers and the stack since the 
+# reload the segment registers and the stack since the
 # APs also execute this code
 #ljmp	$INITSEG, $(reload - start + 0x200)
 reload:
@@ -48,7 +47,7 @@ reload:
      	/* skip the port92 code if it's unimplemented (read returns 0xff) */
      	cmpb	$0xff, %al
      	jz	alt_a20_done
-     	
+
      	/* set or clear bit1, the ALT_A20_GATE bit */
      	movb	4(%esp), %ah
      	testb	%ah, %ah
@@ -67,10 +66,10 @@ alt_a20_done:
 # end from grub-a20.patch
 
 	call    empty_8042
-	
+
 	movb	$0xD1, %al	# command write
 	outb	%al, $0x64
-	call    empty_8042	
+	call    empty_8042
 
 	movb	$0xDF, %al	# A20 on
 	outb	%al, $0x60
@@ -110,7 +109,7 @@ empty_8042:
 	call	delay
 	inb	$0x60, %al	# read it
 	jmp	empty_8042
-	
+
 no_output:
 	testb	$2, %al		# is input buffer full?
 	jnz	empty_8042	# yes - loop

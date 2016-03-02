@@ -9,12 +9,12 @@ do
 	elif [ ! -x $(which $X) ]; then
 		echo "makeiso.sh error: $X is not executable." >&2
 		exit 1
-	fi 
+	fi
 done
 
 #check to see if memtest.bin is present
-if [ ! -w memtest.bin ]; then 
-	echo "makeiso.sh error: cannot find memtest.bin, did you compile it?" >&2 
+if [ ! -w memtest.bin ]; then
+	echo "makeiso.sh error: cannot find memtest.bin, did you compile it?" >&2
 	exit 1
 fi
 

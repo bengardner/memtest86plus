@@ -8,13 +8,12 @@
  * http://www.canardpc.com - http://www.memtest.org
  * Thanks to Passmark for calculate_chunk() and various comments !
  */
- 
 #include "test.h"
 #include "config.h"
 #include "stdint.h"
 #include "cpuid.h"
 #include "smp.h"
-#include <sys/io.h>
+#include "io.h"
 
 extern struct cpu_ident cpu_id;
 extern volatile int    mstr_cpu;
@@ -47,13 +46,13 @@ void calculate_chunk(ulong** start, ulong** end, int me, int j, int makeMultiple
 	if (run_cpus == 1) {
 		*start = v->map[j].start;
 		*end = v->map[j].end;
-	} 
+	}
 	else{
 
 		// Divide the current segment by the number of CPUs
 		chunk = (ulong)v->map[j].end-(ulong)v->map[j].start;
 		chunk /= run_cpus;
-		
+
 		// Round down to the nearest desired bitlength multiple
 		chunk = (chunk + (makeMultipleOf-1)) &  ~(makeMultipleOf-1);
 
@@ -88,7 +87,7 @@ void addr_tst1(int me)
 		/* Set pattern in our lowest multiple of 0x20000 */
 		p = (ulong *)roundup((ulong)v->map[0].start, 0x1ffff);
 		*p = p1;
-	
+
 		/* Now write pattern compliment */
 		p1 = ~p1;
 		end = v->map[segs-1].end;
@@ -272,7 +271,7 @@ void addr_tst2(int me)
 				"cmpl %%edx,%%edi\n\t"
 				"jb L99\n\t"
 				"jmp L98\n\t"
-			
+
 				"L97:\n\t"
 				"pushl %%edx\n\t"
 				"pushl %%ecx\n\t"
@@ -394,7 +393,7 @@ void movinvr(int me)
 					break;
 				}
 /* Original C code replaced with hand tuned assembly code */
-				
+
 				/*for (; p <= pe; p++) {
 					num = rand(me);
 					if (i) {
@@ -412,7 +411,7 @@ void movinvr(int me)
 					xorVal = 0;
 				}
 				asm __volatile__ (
-					
+
                     "pushl %%ebp\n\t"
 
 					// Skip first increment
@@ -474,7 +473,7 @@ void movinvr(int me)
 					"popl %%eax\n\t"
 					"popl %%ecx\n\t"
 					"popl %%edx\n\t"
-					"jmp L25\n" 
+					"jmp L25\n"
 
 					"L24:\n\t"
                                         "popl %%ebp\n\t"
@@ -570,7 +569,7 @@ void movinv1 (int iter, ulong p1, ulong p2, int me)
 					break;
 				}
 
-				// Original C code replaced with hand tuned assembly code 
+				// Original C code replaced with hand tuned assembly code
 				// seems broken
  				/*for (; p <= pe; p++) {
 					if ((bad=*p) != p1) {
@@ -632,7 +631,7 @@ void movinv1 (int iter, ulong p1, ulong p2, int me)
 					done++;
 				}
 
-				/* Since we are using unsigned addresses a 
+				/* Since we are using unsigned addresses a
 				 * redundent check is required */
 				if (pe < start || pe > end) {
 					pe = start;
@@ -1169,7 +1168,7 @@ void modtst(int offset, int iter, ulong p1, ulong p2, int me)
 }
 
 /*
- * Test memory using block moves 
+ * Test memory using block moves
  * Adapted from Robert Redelmeier's burnBX test
  */
 void block_move(int iter, int me)
@@ -1221,7 +1220,7 @@ void block_move(int iter, int me)
 				"movl %%eax, %%edx\n\t"
 				"notl %%edx\n\t"
 
-				// Set a block of 64-bytes	// First loop DWORDS are 
+				// Set a block of 64-bytes	// First loop DWORDS are
 				"movl %%eax,0(%%edi)\n\t"	// 0x00000001
 				"movl %%eax,4(%%edi)\n\t"	// 0x00000001
 				"movl %%eax,8(%%edi)\n\t"	// 0x00000001
@@ -1239,11 +1238,11 @@ void block_move(int iter, int me)
 				"movl %%edx,56(%%edi)\n\t"	// 0xfffffffe
 				"movl %%edx,60(%%edi)\n\t"	// 0xfffffffe
 
-				// rotate left with carry, 
+				// rotate left with carry,
 				// second loop eax is		 0x00000002
 				// second loop edx is (~eax) 0xfffffffd
-				"rcll $1, %%eax\n\t"		
-				
+				"rcll $1, %%eax\n\t"
+
 				// Move current position forward 64-bytes (to start of next block)
 				"leal 64(%%edi), %%edi\n\t"
 
@@ -1259,7 +1258,7 @@ void block_move(int iter, int me)
 	}
 	s_barrier();
 
-	/* Now move the data around 
+	/* Now move the data around
 	 * First move the data up half of the segment size we are testing
 	 * Then move the data to the original location + 32 bytes
 	 */
@@ -1300,7 +1299,7 @@ void block_move(int iter, int me)
 					"L110:\n\t"
 
 					//
-					// At the end of all this 
+					// At the end of all this
 					// - the second half equals the inital value of the first half
 					// - the first half is right shifted 32-bytes (with wrapping)
 					//
@@ -1337,7 +1336,7 @@ void block_move(int iter, int me)
 	}
 	s_barrier();
 
-	/* Now check the data 
+	/* Now check the data
 	 * The error checking is rather crude.  We just check that the
 	 * adjacent words are the same.
 	 */
@@ -1524,7 +1523,7 @@ void sleep(long n, int flag, int me, int sms)
 			t = h * ((unsigned)0xffffffff / v->clks_msec) / 1000;
 			t += (l / v->clks_msec) / 1000;
 		}
-		
+
 		/* Is the time up? */
 		if (t >= n) {
 			break;
@@ -1547,22 +1546,21 @@ void sleep(long n, int flag, int me, int sms)
 
 void beep(unsigned int frequency)
 {
-	
 	unsigned int count = 1193180 / frequency;
 
 	// Switch on the speaker
-	outb_p(inb_p(0x61)|3, 0x61);
+	outb(inb(0x61)|3, 0x61);
 
 	// Set command for counter 2, 2 byte write
-	outb_p(0xB6, 0x43);
+	outb(0xB6, 0x43);
 
 	// Select desired Hz
-	outb_p(count & 0xff, 0x42);
+	outb(count & 0xff, 0x42);
 	outb((count >> 8) & 0xff, 0x42);
 
 	// Block for 100 microseconds
 	sleep(100, 0, 0, 1);
 
 	// Switch off the speaker
-	outb(inb_p(0x61)&0xFC, 0x61);
+	outb(inb(0x61)&0xFC, 0x61);
 }

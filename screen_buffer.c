@@ -3,7 +3,6 @@
  * Released under version 2 of the Gnu Public License.
  * By Jani Averbach, Jaa@iki.fi, 2001
  */
-
 #include "test.h"
 #include "screen_buffer.h"
 
@@ -11,7 +10,7 @@
 #define SCREEN_Y 25
 #define Y_SIZE SCREEN_Y
 /*
- * X-size should by one of by screen size, 
+ * X-size should by one of by screen size,
  * so that there is room for ending '\0'
  */
 #define X_SIZE SCREEN_X+1
@@ -62,7 +61,7 @@ void clear_screen_buf()
     }
 }
 
-void tty_print_region(const int pi_top, 
+void tty_print_region(const int pi_top,
                       const int pi_left,
                       const int pi_bottom,
                       const int pi_right)
@@ -72,12 +71,12 @@ void tty_print_region(const int pi_top,
 
     for (y=pi_top; y < pi_bottom; ++y){
         CHECK_BOUNDS(y, pi_right);
-        
+
         tmp = screen_buf[y][pi_right];
         screen_buf[y][pi_right] = '\0';
 
         CHECK_BOUNDS(y, pi_left);
-        ttyprint(y, pi_left, &(screen_buf[y][pi_left]));                
+        ttyprint(y, pi_left, &(screen_buf[y][pi_left]));
 
         screen_buf[y][pi_right] = tmp;
     }
@@ -105,7 +104,7 @@ void tty_print_line(
 void tty_print_screen(void)
 {
 #ifdef SCRN_DEBUG
-    int i; 
+    int i;
 
     for (i=0; i < SCREEN_Y; ++i)
         ttyprint(i,0, padding);
@@ -121,7 +120,7 @@ void print_error(char *pstr)
     ttyprint(0,0, padding);
 #endif /* SCRN_DEBUG */
 
-    ttyprint(0,35, pstr);        
-    
+    ttyprint(0,35, pstr);
+
     while(1);
 }

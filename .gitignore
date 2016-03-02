@@ -1,0 +1,8 @@
+/*.d
+memtest_shared
+/*.s
+/*.o
+memtest
+memtest.bin
+memtest.elf
+memtest_shared.bin

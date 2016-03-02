@@ -25,7 +25,7 @@ static unsigned long ip_compute_csum(void *addr, unsigned long length)
 			sum -= 0xFFFF;
 		length -= 1;
 		addr = ptr +1;
-		
+
 	}
 	len = length >> 1;
 	ptr = addr;
@@ -50,7 +50,7 @@ static unsigned long ip_compute_csum(void *addr, unsigned long length)
 			sum -= 0xFFFF;
 	}
 	return (~sum) & 0xFFFF;
-	
+
 }
 
 #define for_each_lbrec(head, rec) \
@@ -58,8 +58,8 @@ static unsigned long ip_compute_csum(void *addr, unsigned long length)
 		(((char *)rec) < (((char *)head) + sizeof(*head) + head->table_bytes))  && \
 		(rec->size >= 1) && \
 		((((char *)rec) + rec->size) <= (((char *)head) + sizeof(*head) + head->table_bytes)); \
-		rec = (struct lb_record *)(((char *)rec) + rec->size)) 
-		
+		rec = (struct lb_record *)(((char *)rec) + rec->size))
+
 
 static int count_lb_records(struct lb_header *head)
 {
@@ -85,7 +85,7 @@ static struct lb_header * __find_lb_table(unsigned long start, unsigned long end
 			continue;
 		if (ip_compute_csum((unsigned char *)head, sizeof(*head)) != 0)
 			continue;
-		if (ip_compute_csum((unsigned char *)recs, head->table_bytes) 
+		if (ip_compute_csum((unsigned char *)recs, head->table_bytes)
 			!= head->table_checksum)
 			continue;
 		if (count_lb_records(head) != head->table_entries)
@@ -117,7 +117,7 @@ int query_linuxbios(void)
 	struct lb_memory *mem;
 	struct lb_forward *forward;
 	int i, entries;
-	
+
 	head = find_lb_table();
 	if (!head) {
 		return 0;

@@ -1,4 +1,4 @@
-/* vmem.c - MemTest-86 
+/* vmem.c - MemTest-86
  *
  * Virtual memory handling (PAE)
  *
@@ -149,6 +149,6 @@ unsigned long page_of(void *addr)
 	cprint(LINE_SCROLL -2, 0, "page_of(        )->            ");
 	hprint(LINE_SCROLL -2, 8, ((unsigned long)addr));
 	hprint(LINE_SCROLL -2, 20, page);
-#endif	
+#endif
 	return page;
 }

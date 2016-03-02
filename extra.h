@@ -11,7 +11,7 @@
 
 void change_timing(int cas, int rcd, int rp, int ras);
 void find_memctr(void);
-void disclaimer(void); 
+void disclaimer(void);
 void get_option(void);
 void get_menu(void);
 void a64_parameter(void);

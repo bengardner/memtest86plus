@@ -1,0 +1,136 @@
+<!DOCTYPE Project SYSTEM "http://www.slickedit.com/dtd/vse/10.0/vpj.dtd">
+<Project
+	Version="10.0"
+	VendorName="SlickEdit"
+	TemplateName="(Other)"
+	WorkingDir=".">
+	<Config
+		Name="Release"
+		OutputFile=""
+		CompilerConfigName="">
+		<Menu>
+			<Target
+				Name="Compile"
+				MenuCaption="&amp;Compile"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveCurrent"
+				RunFromDir="%rw">
+				<Exec/>
+			</Target>
+			<Target
+				Name="Build"
+				MenuCaption="&amp;Build"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec/>
+			</Target>
+			<Target
+				Name="Rebuild"
+				MenuCaption="&amp;Rebuild"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec/>
+			</Target>
+			<Target
+				Name="Debug"
+				MenuCaption="&amp;Debug"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec/>
+			</Target>
+			<Target
+				Name="Execute"
+				MenuCaption="E&amp;xecute"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec CmdLine='".exe"'/>
+			</Target>
+		</Menu>
+	</Config>
+	<CustomFolders>
+		<Folder
+			Name="Source Files"
+			Filters="*.c;*.C;*.cc;*.cpp;*.cp;*.cxx;*.c++;*.prg;*.pas;*.dpr;*.asm;*.s;*.bas;*.java;*.cs;*.sc;*.e;*.cob;*.html;*.rc;*.tcl;*.py;*.pl;*.d">
+		</Folder>
+		<Folder
+			Name="Header Files"
+			Filters="*.h;*.H;*.hh;*.hpp;*.hxx;*.inc;*.sh;*.cpy;*.if">
+		</Folder>
+		<Folder
+			Name="Resource Files"
+			Filters="*.ico;*.cur;*.dlg"/>
+		<Folder
+			Name="Bitmaps"
+			Filters="*.bmp"/>
+		<Folder
+			Name="Other Files"
+			Filters="">
+		</Folder>
+	</CustomFolders>
+	<Files AutoFolders="DirectoryView">
+		<F N="bootsect.S"/>
+		<F N="build-number.txt"/>
+		<F N="build.number"/>
+		<F N="build_number.h"/>
+		<F
+			N="buildnumber.mak"
+			Type="Makefile"/>
+		<F N="changelog"/>
+		<F N="config.c"/>
+		<F N="config.h"/>
+		<F N="controller.c"/>
+		<F N="controller.h"/>
+		<F N="cpu1900.c"/>
+		<F N="cpuid.c"/>
+		<F N="cpuid.h"/>
+		<F N="defs.h"/>
+		<F N="dmi.c"/>
+		<F N="dmi.h"/>
+		<F N="elf.h"/>
+		<F N="error.c"/>
+		<F N="extra.c"/>
+		<F N="extra.h"/>
+		<F N="FAQ"/>
+		<F N="head.S"/>
+		<F N="init.c"/>
+		<F N="io.h"/>
+		<F N="jedec_id.h"/>
+		<F N="lib.c"/>
+		<F N="linuxbios.c"/>
+		<F N="linuxbios_tables.h"/>
+		<F N="main.c"/>
+		<F N="make_buildnum.sh"/>
+		<F N="makedos.sh"/>
+		<F
+			N="Makefile"
+			Type="Makefile"/>
+		<F N="makeiso.sh"/>
+		<F N="memsize.c"/>
+		<F N="msr.h"/>
+		<F N="mt86+_loader.asm"/>
+		<F N="patn.c"/>
+		<F N="pci.c"/>
+		<F N="pci.h"/>
+		<F N="random.c"/>
+		<F N="README"/>
+		<F N="README.background"/>
+		<F N="README.build-process"/>
+		<F N="reloc.c"/>
+		<F N="screen_buffer.c"/>
+		<F N="screen_buffer.h"/>
+		<F N="serial.h"/>
+		<F N="setup.S"/>
+		<F N="smp.c"/>
+		<F N="smp.h"/>
+		<F N="spd.c"/>
+		<F N="spd.h"/>
+		<F N="stddef.h"/>
+		<F N="stdin.h"/>
+		<F N="stdint.h"/>
+		<F N="test.c"/>
+		<F N="test.h"/>
+		<F N="vmem.c"/>
+	</Files>
+</Project>
