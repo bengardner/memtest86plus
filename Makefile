@@ -43,7 +43,13 @@ CFLAGS := $(MEMTEST_CFLAGS) -O0 -fPIC $(SMP_FL) -fno-stack-protector -fgnu89-inl
 LD += -z max-page-size=0x1000
 
 ifneq ($(SERIAL_CONSOLE_DEFAULT),)
-CFLAGS+= -DSERIAL_CONSOLE_DEFAULT=$(SERIAL_CONSOLE_DEFAULT) -DSERIAL_TTY=$(SERIAL_TTY)
+CFLAGS+= -DSERIAL_CONSOLE_DEFAULT=$(SERIAL_CONSOLE_DEFAULT)
+endif
+ifneq ($(SERIAL_TTY),)
+CFLAGS+= -DSERIAL_TTY=$(SERIAL_TTY)
+endif
+ifneq ($(SERIAL_BAUD_RATE),)
+CFLAGS+= -DSERIAL_BAUD_RATE=$(SERIAL_BAUD_RATE)
 endif
 
 OBJS= _head.o reloc.o main.o test.o init.o lib.o patn.o screen_buffer.o \
