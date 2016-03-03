@@ -60,10 +60,7 @@ DEPS=${OBJS:.o=.d}
 
 -include $(DEPS)
 
-all: clean memtest.bin memtest.elf ../output/memtest86+-5.01.elf
-
-../output/memtest86+-5.01.elf: memtest.elf
-	cp memtest.elf ../output/memtest86+-5.01.elf
+all: clean memtest.bin memtest.elf
 
 com1:
 	$(MAKE) all SERIAL_CONSOLE_DEFAULT=1 SERIAL_TTY=0
