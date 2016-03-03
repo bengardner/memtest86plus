@@ -5,10 +5,6 @@
 
 include ../coreboot/.xcompile
 
-$(warning $(ARCH_SUPPORTED))
-$(warning $(SUBARCH_SUPPORTED))
-$(warning $(GCC_CC_x86_32))
-
 CC:=$(GCC_CC_x86_32)
 CFLAGS:=$(GCC_CFLAGS_x86_32)
 COMPILER_RT:=$(GCC_COMPILER_RT_x86_32)
