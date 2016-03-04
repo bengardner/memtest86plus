@@ -3856,45 +3856,6 @@ static void poll_timings_ct(void)
 
 }
 
-static void poll_timings_bt(void)
-{
-
-	unsigned long mcr,mdr;
-	float cas;
-	int rcd, rp, ras;
-
-	/* Build the MCR Message*/
-	mcr = (0x10 << 24); // 10h = Read - 11h = Write
-	mcr += (0x01 << 16); // DRAM Registers located on port 01h
-	mcr += (0x01 << 8); // DRP = 00h, DTR0 = 01h, DTR1 = 02h, DTR2 = 03h
-	mcr &= 0xFFFFFFF0; // bit 03:00 RSVD
-
-	/* Send Message to GMCH */
-	pci_conf_write(0, 0, 0, 0xD0, 4, mcr);
-
-	/* Read Answer from Sideband bus */
-	pci_conf_read(0, 0, 0, 0xD4, 4, &mdr);
-
-	// CAS Latency (tCAS)
-	cas = ((mdr >> 12)& 0x7) + 5.0f;
-
-	// RAS-To-CAS (tRCD)
-	rcd = ((mdr >> 8)& 0x7) + 5;
-
-	// RAS Precharge (tRP)
-	rp = ((mdr >> 4)& 0x7) + 5;
-
-	// RAS is in DTR1. Read Again.
-	mcr = 0x10010200; // Quick Mode ! Awesome !
-	pci_conf_write(0, 0, 0, 0xD0, 4, mcr);
-	pci_conf_read(0, 0, 0, 0xD4, 4, &mdr);
-
-	// RAS Active to precharge (tRAS)
-	ras = (mdr >> 20) & 0xF;
-
-	// Print
-	print_ram_line(cas, rcd, rp, ras, 1);
-}
 
 /* ------------------ Let's continue ------------------ */
 /* ---------------------------------------------------- */
