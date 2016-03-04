@@ -1413,55 +1413,6 @@ static void poll_fsb_ct(void)
 
 	// Print'em all. Whoa !
 	print_cpu_line(dramclock, fsb, 3);
-
-}
-
-static void poll_fsb_bt(void)
-{
-	unsigned long mcr, mdr;
-	double dramratio, dramclock, fsb;
-	float coef = getP4PMmultiplier();
-
-#define MCR_REG 0xd0
-#define  IOSF_OPCODE(x) ((x) << 24)
-#define  IOSF_PORT(x) ((0xff & (x)) << 16)
-#define  IOSF_REG(x) ((0xff & (x)) << 8)
-
-#define MDR_REG 0xd4
-
-#define MCR_ADDRESS 0,0,0,MCR_REG
-#define MDR_ADDRESS 0,0,0,MDR_REG
-#define MCR_READ 0x10
-#define MCR_WRITE 0x11
-#define IOSF_PORT_SYSMEMC	0x01 /* System Memory Controller */
-#define DTR0			0x01
-	/* Build the MCR Message*/
-	mcr = IOSF_OPCODE(MCR_READ); // 10h = Read - 11h = Write
-	mcr += IOSF_PORT(IOSF_PORT_SYSMEMC); // DRAM Registers located on port 01h
-	mcr += IOSF_REG(DTR0); // DRP = 00h, DTR0 = 01h, DTR1 = 02h, DTR2 = 03h
-	mcr &= 0xFFFFFFF0; // bit 03:00 RSVD
-
-	/* Send Message to GMCH */
-	pci_conf_write(MCR_ADDRESS, 4, mcr);
-
-	/* Read Answer from Sideband bus */
-	pci_conf_read(MDR_ADDRESS, 4, &mdr);
-
-	/* Get RAM ratio */
-	switch (mdr & 0x3) {
-		default:
-		case 0:	dramratio = 3.0f; break; // 800
-		case 1:	dramratio = 4.0f; break; // 1066
-		case 2:	dramratio = 5.0f; break; // 1333
-		case 3:	dramratio = 6.0f; break; // 1600
-	}
-
-	// Compute FSB & RAM Frequency
-	fsb = ((extclock / 1000) / coef);
-	dramclock = fsb * dramratio;
-
-	print_cpu_line(dramclock, fsb, 3);
-
 }
 
 static void poll_fsb_amd64(void) {
@@ -4099,7 +4050,7 @@ struct pci_memory_controller controllers[] = {
 	{ 0xFFFF, 0x0007, "HSW IMC","",			 	 		0, poll_fsb_ivb, 	poll_timings_hsw, setup_wmr, poll_nothing},
 	{ 0xFFFF, 0x0008, "PineView IMC","", 			0, poll_fsb_p35, poll_timings_p35, setup_p35, poll_nothing},
 	{ 0xFFFF, 0x0009, "CedarTrail IMC","",		0, poll_fsb_ct, poll_timings_ct, setup_nothing, poll_nothing},
-	{ 0xFFFF, 0x000A, "BayTrail IMC","",		0, poll_fsb_bt, poll_timings_bt, setup_nothing, poll_nothing},
+	{ 0xFFFF, 0x000A, "BayTrail IMC","",		0, poll_fsb_ct, poll_timings_ct, setup_nothing, poll_nothing},
 
 	/* AMD IMC (Integrated Memory Controllers) */
 	{ 0xFFFF, 0x0100, "AMD K8 IMC","",				0, poll_fsb_amd64, poll_timings_amd64, setup_amd64, poll_nothing },
