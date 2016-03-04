@@ -55,7 +55,7 @@ __IN1(s##_p) __IN2(s,s1,"w") : "=a" (_v) : "d" (port) ,##i ); SLOW_DOWN_IO; retu
 __IN1(s##c_p) __IN2(s,s1,"") : "=a" (_v) : "id" (port) ,##i ); SLOW_DOWN_IO; return _v; }
 
 #define __OUTS(s) \
-extern inline void outs##s(unsigned short port, const void * addr, unsigned long count) \
+static inline void outs##s(unsigned short port, const void * addr, unsigned long count) \
 { __asm__ __volatile__ ("cld ; rep ; outs" #s \
 : "=S" (addr), "=c" (count) : "d" (port),"0" (addr),"1" (count)); }
 
