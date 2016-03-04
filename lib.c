@@ -604,23 +604,21 @@ int get_key() {
 	int c;
 
 	c = inb(0x64);
-	if ((c & 1) == 0) {
-		if (serial_cons) {
-			int comstat;
-			comstat = serial_echo_inb(UART_LSR);
-			if (comstat & UART_LSR_DR) {
-				c = serial_echo_inb(UART_RX);
-				/* Pressing '.' has same effect as 'c'
-				   on a keyboard.
-				   Oct 056   Dec 46   Hex 2E   Ascii .
-				*/
-				return (ascii_to_keycode(c));
-			}
+	if ((c & 1) && (c != 0xff)) {
+		return inb(0x60);
+	} else if (serial_cons) {
+		int comstat;
+		comstat = serial_echo_inb(UART_LSR);
+		if (comstat & UART_LSR_DR) {
+			c = serial_echo_inb(UART_RX);
+			/* Pressing '.' has same effect as 'c'
+			   on a keyboard.
+			   Oct 056   Dec 46   Hex 2E   Ascii .
+			*/
+			return (ascii_to_keycode(c));
 		}
-		return(0);
 	}
-	c = inb(0x60);
-	return((c));
+	return(0);
 }
 
 void check_input(void)
