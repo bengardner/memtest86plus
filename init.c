@@ -151,11 +151,11 @@ static void display_init(void)
 
 
 	serial_echo_init();
-  serial_echo_print("[LINE_SCROLL;24r"); /* Set scroll area row 7-23 */
-  serial_echo_print("[H[2J");   /* Clear Screen */
-  serial_echo_print("[37m[44m");
-  serial_echo_print("[0m");
-  serial_echo_print("[37m[44m");
+	serial_echo_print("\x1b[LINE_SCROLL;24r"); /* Set scroll area row 7-23 */
+	serial_echo_print("\x1b[H\x1b[2J");   /* Clear Screen */
+	serial_echo_print("\x1b[37m\x1b[44m");
+	serial_echo_print("\x1b[0m");
+	serial_echo_print("\x1b[37m\x1b[44m");
 
 	/* Clear screen & set background to blue */
 	for(i=0, pp=(char *)(SCREEN_ADR); i<80*24; i++) {
@@ -178,7 +178,7 @@ static void display_init(void)
 		*pp = 0x71;
 	}
 
-   serial_echo_print("[0m");
+	serial_echo_print("\x1b[0m");
 }
 
 /*

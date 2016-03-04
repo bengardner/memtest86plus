@@ -795,7 +795,7 @@ void ttyprint(int y, int x, const char *p)
 	x++; y++;
 	itoa(sx, x);
 	itoa(sy, y);
-	serial_echo_print("[");
+	serial_echo_print("\x1b[");
 	serial_echo_print(sy);
 	serial_echo_print(";");
 	serial_echo_print(sx);
