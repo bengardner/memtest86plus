@@ -41,7 +41,7 @@
 #define SERIAL_CONSOLE_DEFAULT 0
 #endif
 
-/* SERIAL_TTY - The default serial port to use. 0=ttyS0, 1=ttyS1 */
+/* SERIAL_TTY - The default serial port to use. 0=ttyS0, 1=ttyS1, 2=ttyS2, 3=ttyS3 */
 #ifndef SERIAL_TTY
 #define SERIAL_TTY 0
 #endif
