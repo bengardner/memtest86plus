@@ -133,7 +133,7 @@
   after the first pass. To be sure though simply have the test run overnight
   or even for a couple of days depending on the level of importance of the
   system.
-  
+
 - How many errors are acceptable?
 
   No errors are acceptable. Even if there is just one error, something is
@@ -155,7 +155,7 @@
   correctly configured. Look up the memory timing settings applicable to the
   brand and type of memory modules you have and check they match your BIOS
   settings, correct them if they don't and run memtest again
-  
+
   Ok, you have all the settings correctly set and you're still getting errors.
   Well of course a very likely cause are the memory modules and the logical
   course of action is to look into them further.
@@ -170,7 +170,7 @@
   errors it's a pretty good bet that the module giving the errors is simply
   defective. To exclude the possibility that a defective slot is throwing your
   results, use the same slot to test each different module.
-  
+
   If each module by itself shows no errors, but when you place two or more
   modules into the machine at the same time you do get errors, you are most
   likely stuck with a compatibility issue and unfortunately there isn't a
@@ -196,7 +196,7 @@
   persist, first check if you can rule out any compatibility issues or timing
   issues. If you are sure the memory should work in the system the cause of
   the errors must obviously lie someplace else in the system.
-  
+
   The only way to find out where, is by trial and error really. Simply start
   replacing and/or removing parts of your computer one by one, running memtest
   each time you changed anything, until the errors are resolved.
@@ -265,7 +265,7 @@
   for the FAQ.
 
   -isolinux
-    
+
     For general instructions on how to make a bootable CD with isolinux see
     the syslinux website and the manual. What you need to do to get memtest
     working is as follows.

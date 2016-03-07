@@ -17,9 +17,9 @@
 #include "smp.h"
 #include "io.h"
 #include "spd.h"
+#include "multiboot.h"
 #include "controller.h"
 #include "pci.h"
-#include "multiboot.h"
 
 extern struct tseq tseq[];
 extern short memsz_mode;
@@ -313,11 +313,7 @@ void init(void)
 	if(v->check_temp > 0 && !(v->fail_safe & 4))
 	{
 		cprint(LINE_CPU, 26, "|  CPU Temp");
-#if SERIAL_CONSOLE_DEFAULT == 0
-		cprint(LINE_CPU+1, 26, "|      øC");
-#else
-		cprint(LINE_CPU+1, 26, "|      'C");
-#endif
+		cprint(LINE_CPU+1, 26, "|       C");
 	}
 
 		beep(600);

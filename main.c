@@ -16,7 +16,6 @@
 #include "smp.h"
 #include "config.h"
 #include "multiboot.h"
-#include "io.h"
 #undef TEST_TIMES
 #define DEFTESTS 9
 #define FIRST_DIVISER 3

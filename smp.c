@@ -509,7 +509,7 @@ void smp_find_cpus()
 
    if(v->fail_safe & 3) { return; }
 
-   memset((void *)&AP, 0, sizeof AP);
+	memset((void *)&AP, 0, sizeof AP);
 
 	if(v->fail_safe & 8)
 	{
