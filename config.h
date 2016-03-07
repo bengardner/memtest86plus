@@ -48,7 +48,7 @@
 
 /* SERIAL_BAUD_RATE - Baud rate for the serial console */
 #ifndef SERIAL_BAUD_RATE
-#define SERIAL_BAUD_RATE 9600
+#define SERIAL_BAUD_RATE 115200
 #endif
 
 /* SCRN_DEBUG - extra check for SCREEN_BUFFER
