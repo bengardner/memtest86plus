@@ -32,7 +32,7 @@ endif
 # ensure Multiboot header is within the limit offset.
 LD += -z max-page-size=0x1000
 
-OBJS= head.o reloc.o main.o test.o init.o lib.o patn.o screen_buffer.o \
+OBJS= head.pre.o reloc.o main.o test.o init.o lib.o patn.o screen_buffer.o \
       config.o cpuid.o linuxbios.o pci.o memsize.o spd.o error.o dmi.o controller.o \
       smp.o vmem.o random.o multiboot.o
 
@@ -52,17 +52,17 @@ memtest_shared.bin: memtest_shared
 memtest: memtest_shared.bin memtest.lds
 	$(LD) -s -T memtest.lds -b binary memtest_shared.bin -o $@
 
-head.s: head.S config.h defs.h test.h
+head.pre.s: head.S config.h defs.h test.h
 	$(CC) -E -traditional $< -o $@
 
-bootsect.s: bootsect.S config.h defs.h
+bootsect.pre.s: bootsect.S config.h defs.h
 	$(CC) -E -traditional $< -o $@
 
-setup.s: setup.S config.h defs.h
+setup.pre.s: setup.S config.h defs.h
 	$(CC) -E -traditional $< -o $@
 
-memtest.bin: memtest_shared.bin bootsect.o setup.o memtest.bin.lds
-	$(LD) -T memtest.bin.lds bootsect.o setup.o -b binary \
+memtest.bin: memtest_shared.bin bootsect.pre.o setup.pre.o memtest.bin.lds
+	$(LD) -T memtest.bin.lds bootsect.pre.o setup.pre.o -b binary \
 	memtest_shared.bin -o memtest.bin
 
 reloc.o: reloc.c
@@ -79,7 +79,7 @@ build_number:
 	sh make_buildnum.sh
 
 clean:
-	rm -f *.o *.s *.iso memtest.bin memtest memtest_shared \
+	rm -f *.o *.pre.s *.iso memtest.bin memtest memtest_shared \
 		memtest_shared.bin memtest.iso
 
 iso:
