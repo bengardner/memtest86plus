@@ -18,7 +18,7 @@ void performance();
 extern volatile short cpu_mode;
 extern volatile int test;
 extern void find_chunks();
-extern volatile short  start_seq;
+extern volatile short start_seq;
 extern short restart_flag;
 extern short onepass;
 extern short btflag;
@@ -32,13 +32,13 @@ char pop_save_buffer_2[2][POP2_H][POP2_W];
 void get_config()
 {
 	int flag = 0, sflag = 0, i, j, k, n, m, prt = 0;
-  int reprint_screen = 0;
-  char cp[64];
+	int reprint_screen = 0;
+	char cp[64];
 	ulong page;
 
 	popup(POP_SAVE_BUFFER_1);
 	wait_keyup();
-	while(!flag) {
+	while (!flag) {
 		cprint(POP_Y+1,  POP_X+2, "Settings:");
 		cprint(POP_Y+3,  POP_X+6, "(1) Test Selection");
 		cprint(POP_Y+4,  POP_X+6, "(2) Address Range");
@@ -47,12 +47,12 @@ void get_config()
 		cprint(POP_Y+7,  POP_X+6, "(5) Refresh Screen");
 		cprint(POP_Y+8,  POP_X+6, "(6) Display DMI Data");
 		cprint(POP_Y+9,  POP_X+6, "(7) Display SPD Data");
-		cprint(POP_Y+11, POP_X+6,	"(0) Continue");
+		cprint(POP_Y+11, POP_X+6, "(0) Continue");
 
 		/* Wait for key release */
 		/* Fooey! This nuts'es up the serial input. */
 		sflag = 0;
-		switch(get_key()) {
+		switch (get_key()) {
 		case 2:
 			/* 1 - Test Selection */
 			popclear(POP_SAVE_BUFFER_1);
@@ -60,7 +60,7 @@ void get_config()
 			cprint(POP_Y+3, POP_X+6, "(1) Default Tests");
 			cprint(POP_Y+4, POP_X+6, "(2) Skip Current Test");
 			cprint(POP_Y+5, POP_X+6, "(3) Select Test");
-		  cprint(POP_Y+6, POP_X+6, "(4) Enter Test List");
+			cprint(POP_Y+6, POP_X+6, "(4) Enter Test List");
 			cprint(POP_Y+7, POP_X+6, "(0) Cancel");
 			if (v->testsel < 0) {
 				cprint(POP_Y+3, POP_X+5, ">");
@@ -69,13 +69,13 @@ void get_config()
 			}
 			wait_keyup();
 			while (!sflag) {
-				switch(get_key()) {
+				switch (get_key()) {
 				case 2:
 					/* Default - All tests */
 					i = 0;
 					while (tseq[i].cpu_sel) {
-					    tseq[i].sel = 1;
-					    i++;
+						tseq[i].sel = 1;
+						i++;
 					}
 					find_ticks_for_pass();
 					sflag++;
@@ -89,40 +89,39 @@ void get_config()
 					/* Select test */
 					popclear(POP_SAVE_BUFFER_1);
 					cprint(POP_Y+1, POP_X+3,
-						"Test Selection:");
+					       "Test Selection:");
 					cprint(POP_Y+4, POP_X+5,
-						"Test Number [1-11]: ");
+					       "Test Number [1-11]: ");
 					n = getval(POP_Y+4, POP_X+24, 0) - 1;
-					if (n <= 11)
-						{
-					    /* Deselect all tests */
-					    i = 0;
-					    while (tseq[i].cpu_sel) {
-					        tseq[i].sel = 0;
-					        i++;
-					    }
-					    /* Now set the selection */
-					    tseq[n].sel = 1;
-					    v->pass = -1;
-					    test = n;
-					    find_ticks_for_pass();
-					    sflag++;
-          		bail++;
+					if (n <= 11) {
+						/* Deselect all tests */
+						i = 0;
+						while (tseq[i].cpu_sel) {
+							tseq[i].sel = 0;
+							i++;
 						}
+						/* Now set the selection */
+						tseq[n].sel = 1;
+						v->pass = -1;
+						test = n;
+						find_ticks_for_pass();
+						sflag++;
+						bail++;
+					}
 					break;
 				case 5:
 					/* Enter a test list */
 					popclear(POP_SAVE_BUFFER_1);
 					cprint(POP_Y+1, POP_X+3,
-				"Enter a comma separated list");
+					       "Enter a comma separated list");
 					cprint(POP_Y+2, POP_X+3,
-				"of tests to execute:");
+					       "of tests to execute:");
 					cprint(POP_Y+5, POP_X+5, "List: ");
 					/* Deselect all tests */
 					k = 0;
 					while (tseq[k].cpu_sel) {
-					    tseq[k].sel = 0;
-					    k++;
+						tseq[k].sel = 0;
+						k++;
 					}
 
 					/* Get the list */
@@ -133,36 +132,36 @@ void get_config()
 					 * list */
 					i = j = m = 0;
 					while (1) {
-					    if (isdigit(cp[i])) {
-						n = cp[i]-'0';
-						j = j*10 + n;
-						i++;
-						if (cp[i] == ',' || cp[i] == 0){
-						    if (j < k) {
-							tseq[j].sel = 1;
-							m++;
-						    }
-						    if (cp[i] == 0) break;
-						    j = 0;
-						    i++;
+						if (isdigit(cp[i])) {
+							n = cp[i]-'0';
+							j = j*10 + n;
+							i++;
+							if (cp[i] == ',' || cp[i] == 0) {
+								if (j < k) {
+									tseq[j].sel = 1;
+									m++;
+								}
+								if (cp[i] == 0) break;
+								j = 0;
+								i++;
+							}
 						}
-					    }
 					}
 
 					/* If we didn't select at least one
 					 * test turn them all back on */
 					if (m == 0) {
-					    k = 0;
-					    while (tseq[k].cpu_sel) {
-					        tseq[k].sel = 1;
-					        k++;
-					    }
+						k = 0;
+						while (tseq[k].cpu_sel) {
+							tseq[k].sel = 1;
+							k++;
+						}
 					}
 					v->pass = -1;
 					test = n;
 					find_ticks_for_pass();
 					sflag++;
-          bail++;
+					bail++;
 					break;
 				case 11:
 				case 57:
@@ -182,17 +181,17 @@ void get_config()
 			cprint(POP_Y+6, POP_X+6, "(0) Cancel");
 			wait_keyup();
 			while (!sflag) {
-				switch(get_key()) {
+				switch (get_key()) {
 				case 2:
 					/* Lower Limit */
 					popclear(POP_SAVE_BUFFER_1);
 					cprint(POP_Y+2, POP_X+4,
-						"Lower Limit: ");
+					       "Lower Limit: ");
 					cprint(POP_Y+4, POP_X+4,
-						"Current: ");
+					       "Current: ");
 					aprint(POP_Y+4, POP_X+13, v->plim_lower);
 					cprint(POP_Y+6, POP_X+4,
-						"New: ");
+					       "New: ");
 					page = getval(POP_Y+6, POP_X+9, 12);
 					if (page + 1 <= v->plim_upper) {
 						v->plim_lower = page;
@@ -208,14 +207,14 @@ void get_config()
 					/* Upper Limit */
 					popclear(POP_SAVE_BUFFER_1);
 					cprint(POP_Y+2, POP_X+4,
-						"Upper Limit: ");
+					       "Upper Limit: ");
 					cprint(POP_Y+4, POP_X+4,
-						"Current: ");
+					       "Current: ");
 					aprint(POP_Y+4, POP_X+13, v->plim_upper);
 					cprint(POP_Y+6, POP_X+4,
-						"New: ");
+					       "New: ");
 					page = getval(POP_Y+6, POP_X+9, 12);
-					if  (page - 1 >= v->plim_lower) {
+					if (page - 1 >= v->plim_lower) {
 						v->plim_upper = page;
 						bail++;
 						test--;
@@ -260,7 +259,7 @@ void get_config()
 			if (beepmode) { cprint(POP_Y+7, POP_X+5, ">"); }
 			wait_keyup();
 			while (!sflag) {
-				switch(get_key()) {
+				switch (get_key()) {
 				case 2:
 					/* Error Summary */
 					v->printmode=PRINTMODE_SUMMARY;
@@ -304,8 +303,8 @@ void get_config()
 			popclear(POP_SAVE_BUFFER_1);
 			break;
 		case 5:
-    			/* CPU Mode */
-    	reprint_screen = 1;
+			/* CPU Mode */
+			reprint_screen = 1;
 			popclear(POP_SAVE_BUFFER_1);
 			cprint(POP_Y+1, POP_X+2, "CPU Selection Mode:");
 			cprint(POP_Y+3, POP_X+6, "(1) Parallel (All)");
@@ -314,14 +313,14 @@ void get_config()
 			cprint(POP_Y+6, POP_X+6, "(0) Cancel");
 			cprint(POP_Y+2+cpu_mode, POP_X+5, ">");
 			wait_keyup();
-			while(!sflag) {
-				switch(get_key()) {
+			while (!sflag) {
+				switch (get_key()) {
 				case 2:
 					if (cpu_mode != CPM_ALL) bail++;
 					cpu_mode = CPM_ALL;
 					sflag++;
 					popdown(POP_SAVE_BUFFER_1);
-					cprint(9,34,"All");
+					cprint(9, 34, "All");
 					popup(POP_SAVE_BUFFER_1);
 					break;
 				case 3:
@@ -329,7 +328,7 @@ void get_config()
 					cpu_mode = CPM_RROBIN;
 					sflag++;
 					popdown(POP_SAVE_BUFFER_1);
-					cprint(9,34,"RRb");
+					cprint(9, 34, "RRb");
 					popup(POP_SAVE_BUFFER_1);
 					break;
 				case 4:
@@ -337,7 +336,7 @@ void get_config()
 					cpu_mode = CPM_SEQ;
 					sflag++;
 					popdown(POP_SAVE_BUFFER_1);
-					cprint(9,34,"Seq");
+					cprint(9, 34, "Seq");
 					popup(POP_SAVE_BUFFER_1);
 					break;
 				case 11:
@@ -356,7 +355,7 @@ void get_config()
 		case 7:
 			/* Display DMI Memory Info */
 			popup(POP_SAVE_BUFFER_2);
-      print_dmi_info();
+			print_dmi_info();
 			popdown(POP_SAVE_BUFFER_2);
 			break;
 		case 8:
@@ -378,9 +377,9 @@ void get_config()
 	if (prt) {
 		printpatn();
 	}
-        if (reprint_screen){
-            tty_print_screen();
-        }
+	if (reprint_screen) {
+		tty_print_screen();
+	}
 }
 
 void popup(int pop_x, int pop_y, int pop_h, int pop_w, char pop_save_buffer[2][pop_h][pop_w])
@@ -397,16 +396,16 @@ void popup(int pop_x, int pop_y, int pop_h, int pop_w, char pop_save_buffer[2][p
 			 * except on board that don't have screen (e.g. only serial port)
 			 * that's why we save the screen buffer :
 			 * save screen buffer */
-                        pop_save_buffer[0][i-pop_y][j-pop_x] = get_scrn_buf(i,j);
-			*pp = ' ';		/* Clear screen */
-                        set_scrn_buf(i, j, ' '); /* Clear screen buffer */
+			pop_save_buffer[0][i-pop_y][j-pop_x] = get_scrn_buf(i, j);
+			*pp = ' ';              /* Clear screen */
+			set_scrn_buf(i, j, ' '); /* Clear screen buffer */
 			pp++;
-                        pop_save_buffer[1][i-pop_y][j-pop_x] = *pp; /* Save screen background color */
-			*pp = 0x07;		/* Change screen Background to black */
+			pop_save_buffer[1][i-pop_y][j-pop_x] = *pp; /* Save screen background color */
+			*pp = 0x07;             /* Change screen Background to black */
 		}
 	}
 	/* print the screen buffer in the serial console */
-        tty_print_region(pop_y, pop_x, pop_y+pop_h, pop_x+pop_w);
+	tty_print_region(pop_y, pop_x, pop_y+pop_h, pop_x+pop_w);
 }
 
 void popdown(int pop_x, int pop_y, int pop_h, int pop_w, char pop_save_buffer[2][pop_h][pop_w])
@@ -419,13 +418,13 @@ void popdown(int pop_x, int pop_y, int pop_h, int pop_w, char pop_save_buffer[2]
 			/* Point to the write position in the screen */
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
 			*pp = pop_save_buffer[0][i-pop_y][j-pop_x]; /* Restore screen */
-                        set_scrn_buf(i, j, pop_save_buffer[0][i-pop_y][j-pop_x]); /* Restore the screen buffer*/
+			set_scrn_buf(i, j, pop_save_buffer[0][i-pop_y][j-pop_x]); /* Restore the screen buffer*/
 			pp++;
 			*pp = pop_save_buffer[1][i-pop_y][j-pop_x]; /* Restore screen color */
 		}
 	}
 	/* print the screen buffer in the serial console */
-        tty_print_region(pop_y, pop_x, pop_y+pop_h, pop_x+pop_w);
+	tty_print_region(pop_y, pop_x, pop_y+pop_h, pop_x+pop_w);
 }
 
 void popclear(int pop_x, int pop_y, int pop_h, int pop_w, char pop_save_buffer[2][pop_h][pop_w])
@@ -437,13 +436,13 @@ void popclear(int pop_x, int pop_y, int pop_h, int pop_w, char pop_save_buffer[2
 		for (j=pop_x; j<pop_x + pop_w; j++) {
 			/* Point to the write position in the screen */
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
-			*pp = ' ';		/* Clear screen */
-                        set_scrn_buf(i, j, ' '); /* Clear screen buffer */
+			*pp = ' ';               /* Clear screen */
+			set_scrn_buf(i, j, ' '); /* Clear screen buffer */
 			pp++;
 		}
 	}
 	/* print the screen buffer in the serial console */
-        tty_print_region(pop_y, pop_x, pop_y+pop_h, pop_x+pop_w);
+	tty_print_region(pop_y, pop_x, pop_y+pop_h, pop_x+pop_w);
 }
 
 void adj_mem(void)
@@ -454,7 +453,7 @@ void adj_mem(void)
 	for (i=0; i< v->msegs; i++) {
 		/* Segment inside limits ? */
 		if (v->pmap[i].start >= v->plim_lower &&
-				v->pmap[i].end <= v->plim_upper) {
+		    v->pmap[i].end <= v->plim_upper) {
 			v->selected_pages += (v->pmap[i].end - v->pmap[i].start);
 			continue;
 		}
