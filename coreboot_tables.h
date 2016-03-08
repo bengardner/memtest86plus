@@ -77,13 +77,6 @@ struct lb_memory {
 	struct lb_memory_range map[0];
 };
 
-#define LB_TAG_HWRPB	0x0002
-struct lb_hwrpb {
-	uint32_t tag;
-	uint32_t size;
-	uint64_t hwrpb;
-};
-
 struct lb_forward {
 	uint32_t tag;
 	uint32_t size;
