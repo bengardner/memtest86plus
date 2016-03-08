@@ -98,6 +98,9 @@ static struct lb_header * __find_lb_table(unsigned long start, unsigned long end
 static struct lb_header * find_lb_table(void)
 {
 	struct lb_header *head;
+	struct lb_record *rec;
+	struct lb_forward *forward;
+
 	head = 0;
 	if (!head) {
 		/* First try at address 0 */
@@ -107,6 +110,24 @@ static struct lb_header * find_lb_table(void)
 		/* Then try at address 0xf0000 */
 		head = __find_lb_table(0xf0000, 0x100000);
 	}
+
+	forward = 0;
+	if (head) {
+		/* Check whether there is a forward header */
+		for_each_lbrec(head, rec) {
+			if (rec->tag == LB_TAG_FORWARD) {
+				forward = (struct lb_forward *)rec;
+				break;
+			}
+		}
+	}
+	if (forward) {
+		/* if there is, all valid information is in the
+		 * referenced coreboot table
+		 */
+		head = __find_lb_table(forward->forward, 0x1000);
+	}
+
 	return head;
 }
 
