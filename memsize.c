@@ -24,7 +24,7 @@ static void memsize_820(void);
 static void memsize_801(void);
 static int sanitize_e820_map(struct e820entry *orig_map,
 struct e820entry *new_bios, short old_nr);
-static void memsize_linuxbios();
+static void memsize_coreboot();
 
 /*
  * Find out how much memory there is.
@@ -38,7 +38,7 @@ void mem_size(void)
         /* Determine the memory map */
 	if (query_multiboot()) {
                 flag = 2;
-        } else if (query_linuxbios()) {
+        } else if (query_coreboot()) {
 		flag = 1;
 	} else if (query_pcbios()) {
 		flag = 2;
@@ -58,7 +58,7 @@ void mem_size(void)
 		}
 	}
 	if (flag == 1) {
-		memsize_linuxbios();
+		memsize_coreboot();
 	} else if (flag == 2) {
 		memsize_820();
 	}
@@ -95,7 +95,7 @@ static void sort_pmap(void)
 		}
 	}
 }
-static void memsize_linuxbios(void)
+static void memsize_coreboot(void)
 {
 	int i, n;
 	/* Build the memory map for testing */

@@ -2,7 +2,7 @@
  *
  * Copyright (C) 2008,2009 Robert Millan
  *
- * Loosely based on linuxbios.c, which is:
+ * Loosely based on coreboot.c, which is:
  *
  * Released under version 2 of the Gnu Public License.
  * By Eric Biederman

@@ -685,7 +685,7 @@ Enhancements in v3.0 (22/May/2002) Provided by Eric Biederman
 
    Net-booting is working again
 
-   Linux-BIOS support (To get the memory size)
+   Linux-BIOS (coreboot) support (To get the memory size)
 
    Many bug-fixes and code cleanup.
 

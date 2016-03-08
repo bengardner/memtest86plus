@@ -33,7 +33,7 @@ endif
 LD += -z max-page-size=0x1000
 
 OBJS= head.pre.o reloc.o main.o test.o init.o lib.o patn.o screen_buffer.o \
-      config.o cpuid.o linuxbios.o pci.o memsize.o spd.o error.o dmi.o controller.o \
+      config.o cpuid.o coreboot.o pci.o memsize.o spd.o error.o dmi.o controller.o \
       smp.o vmem.o random.o multiboot.o
 
 all: clean memtest.bin memtest

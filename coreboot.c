@@ -1,4 +1,4 @@
-#include "linuxbios_tables.h"
+#include "coreboot_tables.h"
 #include "test.h"
 
 static unsigned long ip_compute_csum(void *addr, unsigned long length)
@@ -110,7 +110,7 @@ static struct lb_header * find_lb_table(void)
 	return head;
 }
 
-int query_linuxbios(void)
+int query_coreboot(void)
 {
 	struct lb_header *head;
 	struct lb_record *rec;
@@ -162,4 +162,3 @@ int query_linuxbios(void)
 	}
 	return 1;
 }
-
