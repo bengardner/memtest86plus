@@ -113,7 +113,7 @@ void addr_tst1(int me)
 			} while(mask);
 		}
 		do_tick(me);
-		BAILR
+		BAILR;
 	}
 
 	/* Now check the address bits in each bank */
@@ -168,7 +168,7 @@ void addr_tst1(int me)
 			}
 		}
 		do_tick(me);
-		BAILR
+		BAILR;
 		p1 = ~p1;
 	}
 }
@@ -192,7 +192,7 @@ void addr_tst2(int me)
 		done = 0;
 		do {
 			do_tick(me);
-			BAILR
+			BAILR;
 
 			/* Check for overflow */
 			if (pe + SPINSZ > pe && pe != 0) {
@@ -237,7 +237,7 @@ void addr_tst2(int me)
 		done = 0;
 		do {
 			do_tick(me);
-			BAILR
+			BAILR;
 
 			/* Check for overflow */
 			if (pe + SPINSZ > pe && pe != 0) {
@@ -325,7 +325,7 @@ void movinvr(int me)
 		done = 0;
 		do {
 			do_tick(me);
-			BAILR
+			BAILR;
 
 			/* Check for overflow */
 			if (pe + SPINSZ > pe && pe != 0) {
@@ -378,7 +378,7 @@ void movinvr(int me)
 			done = 0;
 			do {
 				do_tick(me);
-				BAILR
+				BAILR;
 
 				/* Check for overflow */
 				if (pe + SPINSZ > pe && pe != 0) {
@@ -510,7 +510,7 @@ void movinv1 (int iter, ulong p1, ulong p2, int me)
 		done = 0;
 		do {
 			do_tick(me);
-			BAILR
+			BAILR;
 
 			/* Check for overflow */
 			if (pe + SPINSZ > pe && pe != 0) {
@@ -554,7 +554,7 @@ void movinv1 (int iter, ulong p1, ulong p2, int me)
 			done = 0;
 			do {
 				do_tick(me);
-				BAILR
+				BAILR;
 
 				/* Check for overflow */
 				if (pe + SPINSZ > pe && pe != 0) {
@@ -622,7 +622,7 @@ void movinv1 (int iter, ulong p1, ulong p2, int me)
 			done = 0;
 			do {
 				do_tick(me);
-				BAILR
+				BAILR;
 
 				/* Check for underflow */
 				if (pe - SPINSZ < pe && pe != 0) {
@@ -709,7 +709,7 @@ void movinv32(int iter, ulong p1, ulong lb, ulong hb, int sval, int off,int me)
 		pat = p1;
 		do {
 			do_tick(me);
-			BAILR
+			BAILR;
 
 			/* Check for overflow */
 			if (pe + SPINSZ > pe && pe != 0) {
@@ -778,7 +778,7 @@ void movinv32(int iter, ulong p1, ulong lb, ulong hb, int sval, int off,int me)
 			pat = p1;
 			do {
 				do_tick(me);
-				BAILR
+				BAILR;
 
 				/* Check for overflow */
 				if (pe + SPINSZ > pe && pe != 0) {
@@ -884,7 +884,7 @@ void movinv32(int iter, ulong p1, ulong lb, ulong hb, int sval, int off,int me)
 			done = 0;
 			do {
 				do_tick(me);
-				BAILR
+				BAILR;
 
 				/* Check for underflow */
                                 if (pe - SPINSZ < pe && pe != 0) {
@@ -1005,7 +1005,7 @@ void modtst(int offset, int iter, ulong p1, ulong p2, int me)
 		done = 0;
 		do {
 			do_tick(me);
-			BAILR
+			BAILR;
 
 			/* Check for overflow */
 			if (pe + SPINSZ > pe && pe != 0) {
@@ -1050,7 +1050,7 @@ void modtst(int offset, int iter, ulong p1, ulong p2, int me)
 			k = 0;
 			do {
 				do_tick(me);
-				BAILR
+				BAILR;
 
 				/* Check for overflow */
 				if (pe + SPINSZ > pe && pe != 0) {
@@ -1111,7 +1111,7 @@ void modtst(int offset, int iter, ulong p1, ulong p2, int me)
 		end -= MOD_SZ;	/* adjust the ending address */
 		do {
 			do_tick(me);
-			BAILR
+			BAILR;
 
 			/* Check for overflow */
 			if (pe + SPINSZ > pe && pe != 0) {
@@ -1194,7 +1194,7 @@ void block_move(int iter, int me)
 		done = 0;
 		do {
 			do_tick(me);
-			BAILR
+			BAILR;
 
 			/* Check for overflow */
 			if (pe + SPINSZ > pe && pe != 0) {
@@ -1291,7 +1291,7 @@ void block_move(int iter, int me)
 			len  = ((ulong)pe - (ulong)p) / 8; // Half the size of this block in DWORDS
 			for(i=0; i<iter; i++) {
 				do_tick(me);
-				BAILR
+				BAILR;
 				asm __volatile__ (
 					"cld\n"
 					"jmp L110\n\t"
@@ -1351,7 +1351,7 @@ void block_move(int iter, int me)
 		done = 0;
 		do {
 			do_tick(me);
-			BAILR
+			BAILR;
 
 			/* Check for overflow */
 			if (pe + SPINSZ > pe && pe != 0) {
@@ -1428,7 +1428,7 @@ void bit_fade_fill(ulong p1, int me)
 		done = 0;
 		do {
 			do_tick(me);
-			BAILR
+			BAILR;
 
 			/* Check for overflow */
 			if (pe + SPINSZ > pe && pe != 0) {
@@ -1467,7 +1467,7 @@ void bit_fade_chk(ulong p1, int me)
 		done = 0;
 		do {
 			do_tick(me);
-			BAILR
+			BAILR;
 
 			/* Check for overflow */
 			if (pe + SPINSZ > pe && pe != 0) {
@@ -1537,7 +1537,7 @@ void sleep(long n, int flag, int me, int sms)
 
 		if (t != ip) {
 			do_tick(me);
-			BAILR
+			BAILR;
 			ip = t;
 		}
 	}

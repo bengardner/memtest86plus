@@ -43,8 +43,8 @@ typedef unsigned long ulong;
 
 #define SPINSZ		0x4000000	/* 256 MB */
 #define MOD_SZ		20
-#define BAILOUT		if (bail) return(1);
-#define BAILR		if (bail) return;
+#define BAILOUT		do { if (bail) return(1); } while (0)
+#define BAILR		do { if (bail) return; } while (0)
 
 #define RES_START	0xa0000
 #define RES_END		0x100000

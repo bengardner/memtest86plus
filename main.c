@@ -907,7 +907,7 @@ int do_test(int my_ord)
 			/* Switch patterns */
 			s_barrier();
 			movinv1(c_iter,p2,p1, my_ord);
-			BAILOUT
+			BAILOUT;
 		}
 		break;
 
@@ -945,11 +945,11 @@ int do_test(int my_ord)
 		for (i=0, p1=1; p1; p1=p1<<1, i++) {
 			s_barrier();
 			movinv32(c_iter,p1, 1, 0x80000000, 0, i, my_ord);
-			BAILOUT
+			BAILOUT;
 			s_barrier();
 			movinv32(c_iter,~p1, 0xfffffffe,
 				0x7fffffff, 1, i, my_ord);
-			BAILOUT
+			BAILOUT;
 		}
 		break;
 
@@ -968,12 +968,12 @@ int do_test(int my_ord)
 				p2 = ~p1;
 				s_barrier();
 				modtst(i, 2, p1, p2, my_ord);
-				BAILOUT
+				BAILOUT;
 
 				/* Switch patterns */
 				s_barrier();
 				modtst(i, 2, p2, p1, my_ord);
-				BAILOUT
+				BAILOUT;
 			}
 		}
 		break;
@@ -1018,13 +1018,13 @@ int do_test(int my_ord)
 		for (i=0; i<MOD_SZ; i++) {
 			p2 = ~p1;
 			modtst(i, c_iter, p1, p2, my_ord);
-			BAILOUT
+			BAILOUT;
 
 			/* Switch patterns */
 			p2 = p1;
 			p1 = ~p2;
 			modtst(i, c_iter, p1,p2, my_ord);
-			BAILOUT
+			BAILOUT;
 		}
 		break;
 
@@ -1035,13 +1035,13 @@ int do_test(int my_ord)
 			for (i=0; i<MOD_SZ; i++) {
 				p2 = ~p1;
 				modtst(i, c_iter, p1, p2, my_ord);
-				BAILOUT
+				BAILOUT;
 
 				/* Switch patterns */
 				p2 = p1;
 				p1 = ~p2;
 				modtst(i, c_iter, p1, p2, my_ord);
-				BAILOUT
+				BAILOUT;
 			}
 		}
 		break;
