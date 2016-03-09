@@ -1,5 +1,5 @@
 *.o
-*.s
+*.pre.s
 *.iso
 memtest
 memtest.bin
