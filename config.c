@@ -25,9 +25,8 @@ extern short btflag;
 
 extern void get_list(int x, int y, int len, char *buf);
 
-/* declared in test.h */
-char pop_save_buffer_1[2][POP_H][POP_W];
-char pop_save_buffer_2[2][POP2_H][POP2_W];
+char save[2][POP_H][POP_W];
+char save2[2][POP2_H][POP2_W];
 
 void get_config()
 {
@@ -36,7 +35,7 @@ void get_config()
 	char cp[64];
 	ulong page;
 
-	popup(POP_SAVE_BUFFER_1);
+	popup();
 	wait_keyup();
 	while (!flag) {
 		cprint(POP_Y+1,  POP_X+2, "Settings:");
@@ -55,7 +54,7 @@ void get_config()
 		switch (get_key()) {
 		case 2:
 			/* 1 - Test Selection */
-			popclear(POP_SAVE_BUFFER_1);
+			popclear();
 			cprint(POP_Y+1, POP_X+2, "Test Selection:");
 			cprint(POP_Y+3, POP_X+6, "(1) Default Tests");
 			cprint(POP_Y+4, POP_X+6, "(2) Skip Current Test");
@@ -87,7 +86,7 @@ void get_config()
 					break;
 				case 4:
 					/* Select test */
-					popclear(POP_SAVE_BUFFER_1);
+					popclear();
 					cprint(POP_Y+1, POP_X+3,
 					       "Test Selection:");
 					cprint(POP_Y+4, POP_X+5,
@@ -111,7 +110,7 @@ void get_config()
 					break;
 				case 5:
 					/* Enter a test list */
-					popclear(POP_SAVE_BUFFER_1);
+					popclear();
 					cprint(POP_Y+1, POP_X+3,
 					       "Enter a comma separated list");
 					cprint(POP_Y+2, POP_X+3,
@@ -169,11 +168,11 @@ void get_config()
 					break;
 				}
 			}
-			popclear(POP_SAVE_BUFFER_1);
+			popclear();
 			break;
 		case 3:
 			/* 2 - Address Range */
-			popclear(POP_SAVE_BUFFER_1);
+			popclear();
 			cprint(POP_Y+1, POP_X+2, "Test Address Range:");
 			cprint(POP_Y+3, POP_X+6, "(1) Set Lower Limit");
 			cprint(POP_Y+4, POP_X+6, "(2) Set Upper Limit");
@@ -184,7 +183,7 @@ void get_config()
 				switch (get_key()) {
 				case 2:
 					/* Lower Limit */
-					popclear(POP_SAVE_BUFFER_1);
+					popclear();
 					cprint(POP_Y+2, POP_X+4,
 					       "Lower Limit: ");
 					cprint(POP_Y+4, POP_X+4,
@@ -205,7 +204,7 @@ void get_config()
 					break;
 				case 3:
 					/* Upper Limit */
-					popclear(POP_SAVE_BUFFER_1);
+					popclear();
 					cprint(POP_Y+2, POP_X+4,
 					       "Upper Limit: ");
 					cprint(POP_Y+4, POP_X+4,
@@ -243,11 +242,11 @@ void get_config()
 					break;
 				}
 			}
-			popclear(POP_SAVE_BUFFER_1);
+			popclear();
 			break;
 		case 4:
 			/* Error Mode */
-			popclear(POP_SAVE_BUFFER_1);
+			popclear();
 			cprint(POP_Y+1, POP_X+2, "Printing Mode:");
 			cprint(POP_Y+3, POP_X+6, "(1) Error Summary");
 			cprint(POP_Y+4, POP_X+6, "(2) Individual Errors");
@@ -300,12 +299,12 @@ void get_config()
 					break;
 				}
 			}
-			popclear(POP_SAVE_BUFFER_1);
+			popclear();
 			break;
 		case 5:
 			/* CPU Mode */
 			reprint_screen = 1;
-			popclear(POP_SAVE_BUFFER_1);
+			popclear();
 			cprint(POP_Y+1, POP_X+2, "CPU Selection Mode:");
 			cprint(POP_Y+3, POP_X+6, "(1) Parallel (All)");
 			cprint(POP_Y+4, POP_X+6, "(2) Round Robin (RRb)");
@@ -319,25 +318,25 @@ void get_config()
 					if (cpu_mode != CPM_ALL) bail++;
 					cpu_mode = CPM_ALL;
 					sflag++;
-					popdown(POP_SAVE_BUFFER_1);
+					popdown();
 					cprint(9, 34, "All");
-					popup(POP_SAVE_BUFFER_1);
+					popup();
 					break;
 				case 3:
 					if (cpu_mode != CPM_RROBIN) bail++;
 					cpu_mode = CPM_RROBIN;
 					sflag++;
-					popdown(POP_SAVE_BUFFER_1);
+					popdown();
 					cprint(9, 34, "RRb");
-					popup(POP_SAVE_BUFFER_1);
+					popup();
 					break;
 				case 4:
 					if (cpu_mode != CPM_SEQ) bail++;
 					cpu_mode = CPM_SEQ;
 					sflag++;
-					popdown(POP_SAVE_BUFFER_1);
+					popdown();
 					cprint(9, 34, "Seq");
-					popup(POP_SAVE_BUFFER_1);
+					popup();
 					break;
 				case 11:
 				case 57:
@@ -346,7 +345,7 @@ void get_config()
 					break;
 				}
 			}
-			popclear(POP_SAVE_BUFFER_1);
+			popclear();
 			break;
 		case 6:
 			reprint_screen = 1;
@@ -354,15 +353,15 @@ void get_config()
 			break;
 		case 7:
 			/* Display DMI Memory Info */
-			popup(POP_SAVE_BUFFER_2);
+			pop2up();
 			print_dmi_info();
-			popdown(POP_SAVE_BUFFER_2);
+			pop2down();
 			break;
 		case 8:
 			/* Display SPD Data */
-			popdown(POP_SAVE_BUFFER_1);
+			popdown();
 			show_spd();
-			popup(POP_SAVE_BUFFER_1);
+			popup();
 			sflag++;
 			break;
 		case 11:
@@ -373,7 +372,7 @@ void get_config()
 			break;
 		}
 	}
-	popdown(POP_SAVE_BUFFER_1);
+	popdown();
 	if (prt) {
 		printpatn();
 	}
@@ -382,67 +381,108 @@ void get_config()
 	}
 }
 
-void popup(int pop_x, int pop_y, int pop_h, int pop_w, char pop_save_buffer[2][pop_h][pop_w])
+void popup()
 {
 	int i, j;
 	char *pp;
 
-	for (i=pop_y; i<pop_y + pop_h; i++) {
-		for (j=pop_x; j<pop_x + pop_w; j++) {
-			/* Point to the write position in the screen */
+	for (i=POP_Y; i<POP_Y + POP_H; i++) {
+		for (j=POP_X; j<POP_X + POP_W; j++) {
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
-
-			/* pp and get_scrn_buf(i,j) should be equal here
-			 * except on board that don't have screen (e.g. only serial port)
-			 * that's why we save the screen buffer :
-			 * save screen buffer */
-			pop_save_buffer[0][i-pop_y][j-pop_x] = get_scrn_buf(i, j);
-			*pp = ' ';              /* Clear screen */
-			set_scrn_buf(i, j, ' '); /* Clear screen buffer */
+			save[0][i-POP_Y][j-POP_X] = *pp;  /* Save screen */
+			set_scrn_buf(i, j, ' ');
+			*pp = ' ';              /* Clear */
 			pp++;
-			pop_save_buffer[1][i-pop_y][j-pop_x] = *pp; /* Save screen background color */
-			*pp = 0x07;             /* Change screen Background to black */
+			save[1][i-POP_Y][j-POP_X] = *pp;
+			*pp = 0x07;             /* Change Background to black */
 		}
 	}
-	/* print the screen buffer in the serial console */
-	tty_print_region(pop_y, pop_x, pop_y+pop_h, pop_x+pop_w);
+	tty_print_region(POP_Y, POP_X, POP_Y+POP_H, POP_X+POP_W);
 }
 
-void popdown(int pop_x, int pop_y, int pop_h, int pop_w, char pop_save_buffer[2][pop_h][pop_w])
+void popdown()
 {
 	int i, j;
 	char *pp;
 
-	for (i=pop_y; i<pop_y + pop_h; i++) {
-		for (j=pop_x; j<pop_x + pop_w; j++) {
-			/* Point to the write position in the screen */
+	for (i=POP_Y; i<POP_Y + POP_H; i++) {
+		for (j=POP_X; j<POP_X + POP_W; j++) {
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
-			*pp = pop_save_buffer[0][i-pop_y][j-pop_x]; /* Restore screen */
-			set_scrn_buf(i, j, pop_save_buffer[0][i-pop_y][j-pop_x]); /* Restore the screen buffer*/
+			*pp = save[0][i-POP_Y][j-POP_X]; /* Restore screen */
+			set_scrn_buf(i, j, save[0][i-POP_Y][j-POP_X]);
 			pp++;
-			*pp = pop_save_buffer[1][i-pop_y][j-pop_x]; /* Restore screen color */
+			*pp = save[1][i-POP_Y][j-POP_X]; /* Restore color */
 		}
 	}
-	/* print the screen buffer in the serial console */
-	tty_print_region(pop_y, pop_x, pop_y+pop_h, pop_x+pop_w);
+	tty_print_region(POP_Y, POP_X, POP_Y+POP_H, POP_X+POP_W);
 }
 
-void popclear(int pop_x, int pop_y, int pop_h, int pop_w, char pop_save_buffer[2][pop_h][pop_w])
+void popclear()
 {
 	int i, j;
 	char *pp;
 
-	for (i=pop_y; i<pop_y + pop_h; i++) {
-		for (j=pop_x; j<pop_x + pop_w; j++) {
-			/* Point to the write position in the screen */
+	for (i=POP_Y; i<POP_Y + POP_H; i++) {
+		for (j=POP_X; j<POP_X + POP_W; j++) {
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
-			*pp = ' ';               /* Clear screen */
-			set_scrn_buf(i, j, ' '); /* Clear screen buffer */
+			*pp = ' ';              /* Clear popup */
+			set_scrn_buf(i, j, ' ');
 			pp++;
 		}
 	}
-	/* print the screen buffer in the serial console */
-	tty_print_region(pop_y, pop_x, pop_y+pop_h, pop_x+pop_w);
+	tty_print_region(POP_Y, POP_X, POP_Y+POP_H, POP_X+POP_W);
+}
+
+void pop2up()
+{
+	int i, j;
+	char *pp;
+
+	for (i=POP2_Y; i<POP2_Y + POP2_H; i++) {
+		for (j=POP2_X; j<POP2_X + POP2_W; j++) {
+			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
+			save2[0][i-POP2_Y][j-POP2_X] = *pp;  /* Save screen */
+			set_scrn_buf(i, j, ' ');
+			*pp = ' ';              /* Clear */
+			pp++;
+			save2[1][i-POP2_Y][j-POP2_X] = *pp;
+			*pp = 0x07;             /* Change Background to black */
+		}
+	}
+	tty_print_region(POP2_Y, POP2_X, POP2_Y+POP2_H, POP2_X+POP2_W);
+}
+
+void pop2down()
+{
+	int i, j;
+	char *pp;
+
+	for (i=POP2_Y; i<POP2_Y + POP2_H; i++) {
+		for (j=POP2_X; j<POP2_X + POP2_W; j++) {
+			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
+			*pp = save2[0][i-POP2_Y][j-POP2_X]; /* Restore screen */
+			set_scrn_buf(i, j, save2[0][i-POP2_Y][j-POP2_X]);
+			pp++;
+			*pp = save2[1][i-POP2_Y][j-POP2_X]; /* Restore color */
+		}
+	}
+	tty_print_region(POP2_Y, POP2_X, POP2_Y+POP2_H, POP2_X+POP2_W);
+}
+
+void pop2clear()
+{
+	int i, j;
+	char *pp;
+
+	for (i=POP2_Y; i<POP2_Y + POP2_H; i++) {
+		for (j=POP2_X; j<POP2_X + POP2_W; j++) {
+			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
+			*pp = ' ';              /* Clear popup */
+			set_scrn_buf(i, j, ' ');
+			pp++;
+		}
+	}
+	tty_print_region(POP2_Y, POP2_X, POP2_Y+POP2_H, POP2_X+POP2_W);
 }
 
 void adj_mem(void)
