@@ -15,24 +15,23 @@ static unsigned int SEED_Y[MAX_CPUS*16];
 
 unsigned long rand (int cpu)
 {
-   static unsigned int a = 18000, b = 30903;
-   int me;
+	static unsigned int a = 18000, b = 30903;
+	int me;
 
-   me = cpu*16;
+	me = cpu*16;
 
-   SEED_X[me] = a*(SEED_X[me]&65535) + (SEED_X[me]>>16);
-   SEED_Y[me] = b*(SEED_Y[me]&65535) + (SEED_Y[me]>>16);
+	SEED_X[me] = a*(SEED_X[me]&65535) + (SEED_X[me]>>16);
+	SEED_Y[me] = b*(SEED_Y[me]&65535) + (SEED_Y[me]>>16);
 
-   return ((SEED_X[me]<<16) + (SEED_Y[me]&65535));
+	return ((SEED_X[me]<<16) + (SEED_Y[me]&65535));
 }
 
 
 void rand_seed( unsigned int seed1, unsigned int seed2, int cpu)
 {
-   int me;
+	int me;
 
-   me = cpu*16;
-   SEED_X[me] = seed1;
-   SEED_Y[me] = seed2;
+	me = cpu*16;
+	SEED_X[me] = seed1;
+	SEED_Y[me] = seed2;
 }
-

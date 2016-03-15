@@ -23,7 +23,7 @@ static void sort_pmap(void);
 static void memsize_820(void);
 static void memsize_801(void);
 static int sanitize_e820_map(struct e820entry *orig_map,
-struct e820entry *new_bios, short old_nr);
+                             struct e820entry *new_bios, short old_nr);
 static void memsize_coreboot();
 
 /*
@@ -35,10 +35,10 @@ void mem_size(void)
 	v->test_pages = 0;
 
 	/* Get the memory size from the BIOS */
-        /* Determine the memory map */
+	/* Determine the memory map */
 	if (query_multiboot()) {
-                flag = 2;
-        } else if (query_coreboot()) {
+		flag = 2;
+	} else if (query_coreboot()) {
 		flag = 1;
 	} else if (query_pcbios()) {
 		flag = 2;
@@ -77,9 +77,9 @@ static void sort_pmap(void)
 	/* Do an insertion sort on the pmap, on an already sorted
 	 * list this should be a O(1) algorithm.
 	 */
-	for(i = 0; i < v->msegs; i++) {
+	for (i = 0; i < v->msegs; i++) {
 		/* Find where to insert the current element */
-		for(j = i -1; j >= 0; j--) {
+		for (j = i -1; j >= 0; j--) {
 			if (v->pmap[i].start > v->pmap[j].start) {
 				j++;
 				break;
@@ -90,7 +90,7 @@ static void sort_pmap(void)
 			struct pmap temp;
 			temp = v->pmap[i];
 			memmove(&v->pmap[j], &v->pmap[j+1],
-				(i -j)* sizeof(temp));
+			        (i -j)* sizeof(temp));
 			v->pmap[j] = temp;
 		}
 	}
@@ -153,13 +153,13 @@ static void memsize_820(void)
 			v->test_pages += v->pmap[n].end - v->pmap[n].start;
 			n++;
 #if 0
-	 		int epmap = 0;
-	 		int lpmap = 0;
-	 		if(n > 12) { epmap = 34; lpmap = -12; }
-			hprint (11+n+lpmap,0+epmap,v->pmap[n-1].start);
-			hprint (11+n+lpmap,10+epmap,v->pmap[n-1].end);
-			hprint (11+n+lpmap,20+epmap,v->pmap[n-1].end - v->pmap[n-1].start);
-			dprint (11+n+lpmap,30+epmap,nm[i].type,0,0);
+			int epmap = 0;
+			int lpmap = 0;
+			if (n > 12) { epmap = 34; lpmap = -12; }
+			hprint (11+n+lpmap, 0+epmap, v->pmap[n-1].start);
+			hprint (11+n+lpmap, 10+epmap, v->pmap[n-1].end);
+			hprint (11+n+lpmap, 20+epmap, v->pmap[n-1].end - v->pmap[n-1].start);
+			dprint (11+n+lpmap, 30+epmap, nm[i].type, 0, 0);
 #endif
 		}
 	}
@@ -198,10 +198,10 @@ static void memsize_801(void)
  *
  */
 static int sanitize_e820_map(struct e820entry *orig_map, struct e820entry *new_bios,
-	short old_nr)
+                             short old_nr)
 {
 	struct change_member {
-		struct e820entry *pbios; /* pointer to original bios entry */
+		struct e820entry  *pbios; /* pointer to original bios entry */
 		unsigned long long addr; /* address for this change point */
 	};
 	struct change_member change_point_list[2*E820MAX];
@@ -269,7 +269,7 @@ static int sanitize_e820_map(struct e820entry *orig_map, struct e820entry *new_b
 
 	/* record all known change-points (starting and ending addresses) */
 	chgidx = 0;
-	for (i=0; i < old_nr; i++)	{
+	for (i=0; i < old_nr; i++) {
 		change_point[chgidx]->addr = biosmap[i].addr;
 		change_point[chgidx++]->pbios = &biosmap[i];
 		change_point[chgidx]->addr = biosmap[i].addr + biosmap[i].size;
@@ -278,17 +278,16 @@ static int sanitize_e820_map(struct e820entry *orig_map, struct e820entry *new_b
 
 	/* sort change-point list by memory addresses (low -> high) */
 	still_changing = 1;
-	while (still_changing)	{
+	while (still_changing) {
 		still_changing = 0;
-		for (i=1; i < 2*old_nr; i++)  {
+		for (i=1; i < 2*old_nr; i++) {
 			/* if <current_addr> > <last_addr>, swap */
 			/* or, if current=<start_addr> & last=<end_addr>, swap */
 			if ((change_point[i]->addr < change_point[i-1]->addr) ||
-				((change_point[i]->addr == change_point[i-1]->addr) &&
-				 (change_point[i]->addr == change_point[i]->pbios->addr) &&
-				 (change_point[i-1]->addr != change_point[i-1]->pbios->addr))
-			   )
-			{
+			    ((change_point[i]->addr == change_point[i-1]->addr) &&
+			     (change_point[i]->addr == change_point[i]->pbios->addr) &&
+			     (change_point[i-1]->addr != change_point[i-1]->pbios->addr))
+			) {
 				change_tmp = change_point[i];
 				change_point[i] = change_point[i-1];
 				change_point[i-1] = change_tmp;
@@ -298,21 +297,18 @@ static int sanitize_e820_map(struct e820entry *orig_map, struct e820entry *new_b
 	}
 
 	/* create a new bios memory map, removing overlaps */
-	overlap_entries=0;	 /* number of entries in the overlap table */
-	new_bios_entry=0;	 /* index for creating new bios map entries */
-	last_type = 0;		 /* start with undefined memory type */
-	last_addr = 0;		 /* start with 0 as last starting address */
+	overlap_entries=0;       /* number of entries in the overlap table */
+	new_bios_entry=0;        /* index for creating new bios map entries */
+	last_type = 0;           /* start with undefined memory type */
+	last_addr = 0;           /* start with 0 as last starting address */
 	/* loop through change-points, determining affect on the new bios map */
 	for (chgidx=0; chgidx < 2*old_nr; chgidx++)
 	{
 		/* keep track of all overlapping bios entries */
-		if (change_point[chgidx]->addr == change_point[chgidx]->pbios->addr)
-		{
+		if (change_point[chgidx]->addr == change_point[chgidx]->pbios->addr) {
 			/* add map entry to overlap list (> 1 entry implies an overlap) */
 			overlap_list[overlap_entries++]=change_point[chgidx]->pbios;
-		}
-		else
-		{
+		} else {
 			/* remove entry from list (order independent, so swap with last) */
 			for (i=0; i<overlap_entries; i++)
 			{
@@ -328,16 +324,16 @@ static int sanitize_e820_map(struct e820entry *orig_map, struct e820entry *new_b
 			if (overlap_list[i]->type > current_type)
 				current_type = overlap_list[i]->type;
 		/* continue building up new bios map based on this information */
-		if (current_type != last_type)	{
-			if (last_type != 0)	 {
+		if (current_type != last_type) {
+			if (last_type != 0) {
 				new_bios[new_bios_entry].size =
 					change_point[chgidx]->addr - last_addr;
 				/* move forward only if the new size was non-zero */
 				if (new_bios[new_bios_entry].size != 0)
 					if (++new_bios_entry >= E820MAX)
-						break; 	/* no more space left for new bios entries */
+						break;  /* no more space left for new bios entries */
 			}
-			if (current_type != 0)	{
+			if (current_type != 0) {
 				new_bios[new_bios_entry].addr = change_point[chgidx]->addr;
 				new_bios[new_bios_entry].type = current_type;
 				last_addr=change_point[chgidx]->addr;

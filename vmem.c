@@ -23,14 +23,14 @@ void paging_off(void)
 		"movl %%eax, %%cr0\n\t"
 		: :
 		: "ax"
-		);
+	);
 }
 
 static void paging_on(void *pdp)
 {
 	if (!cpu_id.fid.bits.pae)
 		return;
-	__asm__ __volatile__(
+	__asm__ __volatile__ (
 		/* Load the page table address */
 		"movl %0, %%cr3\n\t"
 		/* Enable paging */
@@ -40,14 +40,14 @@ static void paging_on(void *pdp)
 		:
 		: "r" (pdp)
 		: "ax"
-		);
+	);
 }
 
 static void paging_on_lm(void *pml)
 {
 	if (!cpu_id.fid.bits.pae)
 		return;
-	__asm__ __volatile__(
+	__asm__ __volatile__ (
 		/* Load the page table address */
 		"movl %0, %%cr3\n\t"
 		/* Enable paging */
@@ -57,7 +57,7 @@ static void paging_on_lm(void *pml)
 		:
 		: "r" (pml)
 		: "ax"
-		);
+	);
 }
 
 int map_page(unsigned long page)
@@ -81,13 +81,13 @@ int map_page(unsigned long page)
 		return -1;
 	}
 	if (cpu_id.fid.bits.lm == 0 && (page > 0x1000000)) {
-		 /* Fail, we want an address that is out of bounds (> 64GB)
+		/* Fail, we want an address that is out of bounds (> 64GB)
 		 *  for PAE and no long mode (ie. 32 bit CPU).
 		 */
 		return -1;
 	}
 	/* Compute the page table entries... */
-	for(i = 0; i < 1024; i++) {
+	for (i = 0; i < 1024; i++) {
 		/*-----------------10/30/2004 12:37PM---------------
 		 * 0xE3 --
 		 * Bit 0 = Present bit.      1 = PDE is present
@@ -118,8 +118,7 @@ void *mapping(unsigned long page_addr)
 	if (page_addr < 0x80000) {
 		/* If the address is less than 1GB directly use the address */
 		result = (void *)(page_addr << 12);
-	}
-	else {
+	} else {
 		unsigned long alias;
 		alias = page_addr & 0x7FFFF;
 		alias += 0x80000;

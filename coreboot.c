@@ -49,15 +49,14 @@ static unsigned long ip_compute_csum(void *addr, unsigned long length)
 			sum -= 0xFFFF;
 	}
 	return (~sum) & 0xFFFF;
-
 }
 
 #define for_each_lbrec(head, rec) \
-	for(rec = (struct lb_record *)(((char *)head) + sizeof(*head)); \
-		(((char *)rec) < (((char *)head) + sizeof(*head) + head->table_bytes))  && \
-		(rec->size >= 1) && \
-		((((char *)rec) + rec->size) <= (((char *)head) + sizeof(*head) + head->table_bytes)); \
-		rec = (struct lb_record *)(((char *)rec) + rec->size))
+	for (rec = (struct lb_record *)(((char *)head) + sizeof(*head)); \
+	     (((char *)rec) < (((char *)head) + sizeof(*head) + head->table_bytes))  && \
+	     (rec->size >= 1) && \
+	     ((((char *)rec) + rec->size) <= (((char *)head) + sizeof(*head) + head->table_bytes)); \
+	     rec = (struct lb_record *)(((char *)rec) + rec->size))
 
 
 static int count_lb_records(struct lb_header *head)
@@ -75,7 +74,7 @@ static struct lb_header * __find_lb_table(unsigned long start, unsigned long end
 {
 	unsigned long addr;
 	/* For now be stupid.... */
-	for(addr = start; addr < end; addr += 16) {
+	for (addr = start; addr < end; addr += 16) {
 		struct lb_header *head = (struct lb_header *)addr;
 		struct lb_record *recs = (struct lb_record *)(addr + sizeof(*head));
 		if (memcmp(head->signature, "LBIO", 4) != 0)
@@ -85,12 +84,12 @@ static struct lb_header * __find_lb_table(unsigned long start, unsigned long end
 		if (ip_compute_csum((unsigned char *)head, sizeof(*head)) != 0)
 			continue;
 		if (ip_compute_csum((unsigned char *)recs, head->table_bytes)
-			!= head->table_checksum)
+		    != head->table_checksum)
 			continue;
 		if (count_lb_records(head) != head->table_entries)
 			continue;
 		return head;
-	};
+	}
 	return 0;
 }
 
@@ -143,13 +142,13 @@ int query_coreboot(void)
 		return 0;
 	}
 
-	 /* coreboot also can forward the table to the high tables area. */
-	 rec = (struct lb_record *)(((char *)head) + sizeof(*head));
-	 if (rec->tag == LB_TAG_FORWARD) {
-		 forward = (struct lb_forward *)rec;
-		 head = (struct lb_header *)(unsigned long)(forward->forward);
-		 if (!head) { return 0;	}
-	 }
+	/* coreboot also can forward the table to the high tables area. */
+	rec = (struct lb_record *)(((char *)head) + sizeof(*head));
+	if (rec->tag == LB_TAG_FORWARD) {
+		forward = (struct lb_forward *)rec;
+		head = (struct lb_header *)(unsigned long)(forward->forward);
+		if (!head) { return 0; }
+	}
 
 	mem = 0;
 	for_each_lbrec(head, rec) {
@@ -165,7 +164,7 @@ int query_coreboot(void)
 	if (entries == 0)
 		return 1;
 	mem_info.e820_nr = 0;
-	for(i = 0; i < entries; i++) {
+	for (i = 0; i < entries; i++) {
 		unsigned long long start;
 		unsigned long long size;
 		unsigned long type;
@@ -174,7 +173,7 @@ int query_coreboot(void)
 		}
 		start = mem->map[i].start;
 		size = mem->map[i].size;
-		type = (mem->map[i].type == LB_MEM_RAM)?E820_RAM: E820_RESERVED;
+		type = (mem->map[i].type == LB_MEM_RAM) ? E820_RAM : E820_RESERVED;
 		mem_info.e820[mem_info.e820_nr].addr = start;
 		mem_info.e820[mem_info.e820_nr].size = size;
 		mem_info.e820[mem_info.e820_nr].type = type;
