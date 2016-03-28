@@ -48,7 +48,7 @@ set_scrn_buf(const int y,
     screen_buf[y][x] = val;
 }
 
-void clear_screen_buf()
+void clear_screen_buf(void)
 {
     int y, x;
 

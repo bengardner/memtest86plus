@@ -600,7 +600,7 @@ void set_cache(int val)
 	}
 }
 
-int get_key() {
+int get_key(void) {
 	int c;
 
 	c = inb(0x64);
@@ -655,7 +655,7 @@ void check_input(void)
 	}
 }
 
-void footer()
+void footer(void)
 {
 	cprint(24, 0, "(ESC)exit  (c)configuration  (SP)scroll_lock  (CR)scroll_unlock");
 	if (slock) {

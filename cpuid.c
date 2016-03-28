@@ -9,7 +9,7 @@
 
 struct cpu_ident cpu_id;
 
-void get_cpuid()
+void get_cpuid(void)
 {
 	unsigned int *v, dummy[3];
 	char *p, *q;

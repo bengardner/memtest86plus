@@ -29,7 +29,7 @@ extern struct cpu_ident cpu_id;
 
 struct barrier_s *barr;
 
-void smp_find_cpus();
+void smp_find_cpus(void);
 
 void barrier_init(int max)
 {
@@ -52,7 +52,7 @@ void s_barrier_init(int max)
         barr->s_st2.slock = 0;
 }
 
-void barrier()
+void barrier(void)
 {
 	if (num_cpus == 1 || v->fail_safe & 3) {
 		return;
@@ -76,7 +76,7 @@ void barrier()
         }
 }
 
-void s_barrier()
+void s_barrier(void)
 {
 	if (run_cpus == 1 || v->fail_safe & 3) {
 		return;
@@ -499,7 +499,7 @@ int parse_madt(uintptr_t addr) {
  *               good:
  *		   setup config, return
  */
-void smp_find_cpus()
+void smp_find_cpus(void)
 {
    floating_pointer_struct_t *fp;
    rsdp_t *rp;
@@ -624,7 +624,7 @@ void smp_find_cpus()
     }
 }
 
-unsigned my_apic_id()
+unsigned my_apic_id(void)
 {
    return (APIC[APICR_ID][0]) >> 24;
 }
@@ -652,7 +652,7 @@ void smp_boot_ap(unsigned cpu_num)
    }
 }
 
-unsigned smp_my_cpu_num()
+unsigned smp_my_cpu_num(void)
 {
    unsigned apicid = my_apic_id();
    unsigned i;

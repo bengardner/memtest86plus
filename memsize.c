@@ -115,7 +115,7 @@ static void memsize_coreboot(void)
 	}
 	v->msegs = n;
 }
-static void memsize_820()
+static void memsize_820(void)
 {
 	int i, n, nr;
 	struct e820entry nm[E820MAX];

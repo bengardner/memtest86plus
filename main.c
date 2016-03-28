@@ -99,7 +99,7 @@ volatile static ulong win1_end;		/* End address for relocation */
 volatile static struct pmap winx;  	/* Window struct for mapping windows */
 
 /* Find the next selected test to run */
-void next_test()
+void next_test(void)
 {
 	test++;
 	while (tseq[test].sel == 0 && tseq[test].cpu_sel != 0) {
@@ -118,7 +118,7 @@ void next_test()
 }
 
 /* Set default values for all parameters */
-void set_defaults()
+void set_defaults(void)
 {
 	int i;
 
@@ -374,7 +374,7 @@ static void parse_command_line(void)
 	cmdline_parsed = 1;
 }
 
-void clear_screen()
+void clear_screen(void)
 {
 	int i;
 	char *pp;
@@ -790,7 +790,7 @@ void test_start(void)
 }
 
 
-void test_setup()
+void test_setup(void)
 {
 	static int ltest = -1;
 

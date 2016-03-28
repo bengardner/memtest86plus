@@ -29,7 +29,7 @@ extern void get_list(int x, int y, int len, char *buf);
 char pop_save_buffer_1[2][POP_H][POP_W];
 char pop_save_buffer_2[2][POP2_H][POP2_W];
 
-void get_config()
+void get_config(void)
 {
 	int flag = 0, sflag = 0, i, j, k, n, m, prt = 0;
 	int reprint_screen = 0;

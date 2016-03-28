@@ -1016,7 +1016,7 @@ void cpu_type(void)
 #define STEST_ADDR 0x100000	/* Measure memory speed starting at 1MB */
 
 /* Measure and display CPU and cache sizes and speeds */
-void cpu_cache_speed()
+void cpu_cache_speed(void)
 {
 	int i, off = 4;
 	ulong speed;
