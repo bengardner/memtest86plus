@@ -12,20 +12,19 @@ static unsigned long ip_compute_csum(void *addr, unsigned long length)
 	sum = 0;
 	if (laddr & 1) {
 		uint16_t buffer;
-		unsigned char *ptr;
+		unsigned char *tmp_ptr;
 		/* copy the first byte into a 2 byte buffer.
 		 * This way automatically handles the endian question
 		 * of which byte (low or high) the last byte goes in.
 		 */
 		buffer = 0;
-		ptr = addr;
-		memmove(&buffer, ptr, 1);
+		tmp_ptr = addr;
+		memmove(&buffer, tmp_ptr, 1);
 		sum += buffer;
 		if (sum > 0xFFFF)
 			sum -= 0xFFFF;
 		length -= 1;
-		addr = ptr +1;
-
+		addr = tmp_ptr + 1;
 	}
 	len = length >> 1;
 	ptr = addr;
@@ -37,14 +36,14 @@ static unsigned long ip_compute_csum(void *addr, unsigned long length)
 	addr = ptr;
 	if (length & 1) {
 		uint16_t buffer;
-		unsigned char *ptr;
+		unsigned char *tmp_ptr;
 		/* copy the last byte into a 2 byte buffer.
 		 * This way automatically handles the endian question
 		 * of which byte (low or high) the last byte goes in.
 		 */
 		buffer = 0;
-		ptr = addr;
-		memmove(&buffer, ptr, 1);
+		tmp_ptr = addr;
+		memmove(&buffer, tmp_ptr, 1);
 		sum += buffer;
 		if (sum > 0xFFFF)
 			sum -= 0xFFFF;
