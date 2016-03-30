@@ -36,8 +36,6 @@ void error(ulong *adr, ulong good, ulong bad)
 
 	ulong xor;
 
-	spin_lock(&barr->mutex);
-
 	xor = good ^ bad;
 
 #ifdef USB_WAR
@@ -65,6 +63,7 @@ void error(ulong *adr, ulong good, ulong bad)
 	}
 	*/
 
+	spin_lock(&barr->mutex);
 	common_err(adr, good, bad, xor, 0);
 	spin_unlock(&barr->mutex);
 }
