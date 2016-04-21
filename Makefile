@@ -9,9 +9,10 @@
 #
 FDISK=/dev/fd0
 
-AS=as -32
-CC=gcc
+AS?=as
+CC?=gcc
 
+AS+= -32
 CFLAGS= -Wall -march=i486 -m32 -O0 -fomit-frame-pointer -fno-builtin \
 	-ffreestanding -fPIC $(SMP_FL) -fno-stack-protector -fgnu89-inline
 
