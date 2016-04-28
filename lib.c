@@ -54,26 +54,27 @@ int strlen(char * string){
 	return i;
 }
 
-int strstr(char *haystack, char * needle)
+int strstr(char *haystack, char *needle)
 {
-	int i=0,j=0;
-	int here=0;
-	while(1){
-		if(needle[i]==haystack[j])
-		{
-			if(here==0)
-				here=j;
-				i++;j++;
-				if(i>=strlen(needle))
-				{
-					return here;
-				}
-				if(j>=strlen(haystack))
-				{
-					return -1;
-				}
+	int i = 0, j = 0;
+	int here = 0;
+	int haystack_len = strlen(haystack);
+	int needle_len = strlen(needle);
+
+	while (1) {
+		if (needle[i] == haystack[j]) {
+			if (here == 0)
+				here = j;
+			i++;
+			j++;
+			if (i >= needle_len)
+				return here;
+			if (j >= haystack_len)
+				return -1;
 		} else {
-			j++;i=0;here=0;
+			j++;
+			i = 0;
+			here = 0;
 		}
 	}
 }
