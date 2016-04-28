@@ -398,6 +398,9 @@ void test_start(void)
 {
 	int my_cpu_num, my_cpu_ord, run;
 
+	extern void hardware_init(void);
+	hardware_init();
+
 	/* If this is the first time here we are CPU 0 */
 	if (start_seq == 0) {
 		my_cpu_num = 0;
