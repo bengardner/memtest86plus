@@ -142,6 +142,10 @@ void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type)
 	int patnchg;
 	ulong mb;
 
+	/* allow hardware to blink an LED or something */
+	extern void hardware_fail(void);
+	hardware_fail();
+
 	update_err_counts();
 
 	switch (v->printmode) {
