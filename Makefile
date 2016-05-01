@@ -11,6 +11,7 @@ FDISK=/dev/fd0
 
 AS?=as
 CC?=gcc
+OBJCOPY?=objcopy
 
 AS+= -32
 CFLAGS= -Wall -march=i486 -m32 -O0 -fomit-frame-pointer -fno-builtin \
@@ -48,7 +49,7 @@ memtest_shared: $(OBJS) memtest_shared.lds Makefile
 	$(LD) -shared -Bsymbolic -T memtest_shared.lds -o $@ $(OBJS)
 
 memtest_shared.bin: memtest_shared
-	objcopy -O binary $< memtest_shared.bin
+	$(OBJCOPY) -O binary $< memtest_shared.bin
 
 memtest: memtest_shared.bin memtest.lds
 	$(LD) -s -T memtest.lds -b binary memtest_shared.bin -o $@
