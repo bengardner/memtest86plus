@@ -220,7 +220,10 @@ static void run_at(unsigned long addr, int cpu)
 	spin_lock(&barr->mutex);
 
 	/* Jump to the start address */
-	goto *ja;
+	/* Rewrite `goto *ja;` for Clang. */
+	typedef void fn(void);
+	fn *volatile fp = (fn*)ja;
+	fp();
 }
 
 /* Switch from the boot stack to the main stack. First the main stack
