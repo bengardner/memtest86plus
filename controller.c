@@ -1376,6 +1376,15 @@ static void poll_fsb_ct(void)
 	case 3: dramratio = 6.0f; break;
 	}
 
+	/* FIXME: Major hack alert!
+	 * The BayTrail E3845 has a fixed memory clock of 1333 MT/s.
+	 * I don't know if the above MCR message applies to BayTrail.
+	 * fsb is calculated at 83.3 on the CPU1900.
+	 * The right answer requires that dramratio be set to 8.
+	 * (83.3 * 8) => 666.7.  With DDR that makes it 1333.
+	 */
+	dramratio = 8.0f;
+
 	// Compute FSB & RAM Frequency
 	fsb = ((extclock / 1000) / coef);
 	dramclock = fsb * dramratio;
